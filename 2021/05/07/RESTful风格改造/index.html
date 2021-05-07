@@ -6,16 +6,16 @@
   
   <title>RESTful风格改造 | forever-love ayhz</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="之前设置了通过id去查询，但是一直都无法正常访问。 今天开始解决这个问题。 首先，用postman看到访问列表 1https:&#x2F;&#x2F;dejuva.run:8100&#x2F;api&#x2F;article&#x2F;query?pageNum&#x3D;1&amp;pageSize&#x3D;10  正常。 访问具体的文章， 1https:&#x2F;&#x2F;dejuva.">
+  <meta name="description" content="之前设置了通过id去查询，但是一直都无法正常访问。 今天开始解决这个问题。 首先，用postman看到访问列表 1https:&#x2F;&#x2F;localhost:8080&#x2F;api&#x2F;article&#x2F;query?pageNum&#x3D;1&amp;pageSize&#x3D;10  正常。 访问具体的文章， 1https:&#x2F;&#x2F;localhos">
 <meta property="og:type" content="article">
 <meta property="og:title" content="RESTful风格改造">
 <meta property="og:url" content="https://loveayhz.github.io/2021/05/07/RESTful%E9%A3%8E%E6%A0%BC%E6%94%B9%E9%80%A0/index.html">
 <meta property="og:site_name" content="forever-love ayhz">
-<meta property="og:description" content="之前设置了通过id去查询，但是一直都无法正常访问。 今天开始解决这个问题。 首先，用postman看到访问列表 1https:&#x2F;&#x2F;dejuva.run:8100&#x2F;api&#x2F;article&#x2F;query?pageNum&#x3D;1&amp;pageSize&#x3D;10  正常。 访问具体的文章， 1https:&#x2F;&#x2F;dejuva.">
+<meta property="og:description" content="之前设置了通过id去查询，但是一直都无法正常访问。 今天开始解决这个问题。 首先，用postman看到访问列表 1https:&#x2F;&#x2F;localhost:8080&#x2F;api&#x2F;article&#x2F;query?pageNum&#x3D;1&amp;pageSize&#x3D;10  正常。 访问具体的文章， 1https:&#x2F;&#x2F;localhos">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://dejuva.run:8100/img/20200420150942_flmcj.gif">
 <meta property="article:published_time" content="2021-05-07T10:43:51.000Z">
-<meta property="article:modified_time" content="2021-05-07T10:53:55.718Z">
+<meta property="article:modified_time" content="2021-05-07T11:01:12.414Z">
 <meta property="article:author" content="loveayhz">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://dejuva.run:8100/img/20200420150942_flmcj.gif">
@@ -104,25 +104,25 @@
         <p>之前设置了通过id去查询，但是一直都无法正常访问。</p>
 <p>今天开始解决这个问题。</p>
 <p>首先，用postman看到访问列表</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https:&#x2F;&#x2F;dejuva.run:8100&#x2F;api&#x2F;article&#x2F;query?pageNum&#x3D;1&amp;pageSize&#x3D;10</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https:&#x2F;&#x2F;localhost:8080&#x2F;api&#x2F;article&#x2F;query?pageNum&#x3D;1&amp;pageSize&#x3D;10</span><br></pre></td></tr></table></figure>
 
 <p>正常。</p>
 <p>访问具体的文章，</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https:&#x2F;&#x2F;dejuva.run:8100&#x2F;api&#x2F;article&#x2F;ea5d992d40f411eb989700163e0ac82f</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https:&#x2F;&#x2F;localhost:8080&#x2F;api&#x2F;article&#x2F;ea5d992d40f411eb989700163e0ac82f</span><br></pre></td></tr></table></figure>
 
 <p>返回数据也正确。</p>
 <p>但是在console控制台，</p>
 <p>Status Code:403,preview内容是 <code>&quot;统一处理，原因：token超时了&quot;。</code></p>
 <p><code>同时可以看到Authorization: Bearer确实携带了token.然后在post里也加上该Bearer token,测试结果与浏览器返回内容一样。也就是说，是因为携带了过时的token才被拦截的。我们用之前的退出功能，删除token的按钮退出登录，然后再直接访问地址发现可以返回json数据。</code></p>
 <p>此外还有一个问题那就是登录之后访问的时候也不通，是因为我们访问的是</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https:&#x2F;&#x2F;dejuva.run:8100&#x2F;article?article_id&#x3D;daaaf019c34e499a821f82623046ad81</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https:&#x2F;&#x2F;localhost:8080&#x2F;article?article_id&#x3D;daaaf019c34e499a821f82623046ad81</span><br></pre></td></tr></table></figure>
 
 <p>这是之前在本地测试的时候用的地址，其实真实的地址需要中间加上 <code>/api，因为我们真实环境使用了nginx</code>代理。使用</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https:&#x2F;&#x2F;dejuva.run:8100&#x2F;api&#x2F;article?article_id&#x3D;daaaf019c34e499a821f82623046ad81</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https:&#x2F;&#x2F;localhost:8080&#x2F;api&#x2F;article?article_id&#x3D;daaaf019c34e499a821f82623046ad81</span><br></pre></td></tr></table></figure>
 
 <p>访问的时候其实是可以返回数据的。这样的话问题就已经很明朗了。</p>
 <p>vue可以接收参数，然后带着参数去请求。按道理</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https:&#x2F;&#x2F;dejuva.run:8100&#x2F;article&#x2F;daaaf019c34e499a821f82623046ad81</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https:&#x2F;&#x2F;localhost:8080&#x2F;article&#x2F;daaaf019c34e499a821f82623046ad81</span><br></pre></td></tr></table></figure>
 
 <p>vue回去带着参数去请求数据，所以不应该返回404，但是浏览器和postman返回的都是404.</p>
 <p>网上有人说前端是https，那么请求的接口也必须是https才行。需要在springboot中添加上证书，将接口都配置成https的才行。不知道是否是这样.</p>
@@ -132,7 +132,7 @@
 <p>后端已经配置了，前端只需要在vue.config.js中加一行代码即可，因为我使用的vue-cli3，vue-cli则需要ssl证书的配置，参考<a target="_blank" rel="noopener" href="https://blog.csdn.net/l508742729/article/details/107820099">https://blog.csdn.net/l508742729/article/details/107820099</a></p>
 <p><a target="_blank" rel="noopener" href="https://blog.csdn.net/l508742729/article/details/107820099">https://blog.csdn.net/l508742729/article/details/107820099</a></p>
 <hr>
-<h2 id="定位到问题"><a href="#定位到问题" class="headerlink" title="定位到问题"></a>定位到问题</h2><p>使用 <code>https://localhost:8080/article?article_id=daaaf019c34e499a821f82623046ad81</code>访问本地环境一切正常，但是在正式环境访问 <code>https://dejuva.run:8100/article?article_id=daaaf019c34e499a821f82623046ad81daaaf019c34e499a821f82623046ad81</code>就直接报404</p>
+<h2 id="定位到问题"><a href="#定位到问题" class="headerlink" title="定位到问题"></a>定位到问题</h2><p>使用 <code>https://localhost:8080/article?article_id=daaaf019c34e499a821f82623046ad81</code>访问本地环境一切正常，但是在正式环境访问 <code>https://localhost:8080/article?article_id=daaaf019c34e499a821f82623046ad81daaaf019c34e499a821f82623046ad81</code>就直接报404</p>
 <p>因此怀疑是nginx的问题。</p>
 <p>终于确定是nginx的问题了。因为vue是单页面，只有一个html，其他都是通过前端路由过去的。</p>
 <p>修改了nginx的配置之后</p>
