@@ -29,40 +29,121 @@ var CONFIG = {
 };
 
 window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 5.4.0"></head><body><div class="container" id="container"><header class="header" id="header"><div class="header-inner"><nav class="header-nav header-nav--fixed"><div class="header-nav-inner"><div class="header-nav-menubtn"><i class="fas fa-bars"></i></div><div class="header-nav-menu"><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/"><span class="header-nav-menu-item__icon"><i class="fas fa-home"></i></span><span class="header-nav-menu-item__text">首页</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/archives/"><span class="header-nav-menu-item__icon"><i class="fas fa-folder-open"></i></span><span class="header-nav-menu-item__text">归档</span></a></div></div><div class="header-nav-mode"><div class="mode"><div class="mode-track"><span class="mode-track-moon"></span><span class="mode-track-sun"></span></div><div class="mode-thumb"></div></div></div></div></nav><div class="header-banner"><div class="header-banner-info"><div class="header-banner-info__title">forever-love ayhz</div><div class="header-banner-info__subtitle">a promise for forever-love ayhz</div></div></div></div></header><main class="main" id="main"><div class="main-inner"><div class="content-wrap" id="content-wrap"><div class="content content-home" id="content"><section class="postlist"><article class="postlist-item post"><header class="post-header"><h1 class="post-title"><a class="post-title__link" href="/2021/05/08/mermaid%E5%AD%A6%E4%B9%A0/">mermaid学习</a></h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">发表于</span><span class="post-meta-item__value">2021-05-08</span></span><span class="post-meta-item post-meta-item--updatetime"><span class="post-meta-item__icon"><i class="far fa-calendar-check"></i></span><span class="post-meta-item__info">更新于</span><span class="post-meta-item__value">2021-05-08</span></span></div></header><div class="post-body"><div class="post-excerpt"><p>参考<span class="exturl"><a class="exturl__link"   target="_blank" rel="noopener" href="https://mermaid-js.github.io/mermaid/#/stateDiagram" >https://mermaid-js.github.io/mermaid/#/stateDiagram</a><span class="exturl__icon"><i class="fas fa-external-link-alt"></i></span></span></p>
-<figure class="highlight plain"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">stateDiagram-v2</span><br><span class="line">state 单据状态图 &#123;</span><br><span class="line">[*] --&gt; 未提交: 员工 新增</span><br><span class="line">未提交 --&gt; 未提交:员工 修改</span><br><span class="line">未提交 --&gt; 待审批:员工 提交</span><br><span class="line">待审批 --&gt; 已审批:领导 审批通过</span><br><span class="line">待审批 --&gt; 已驳回:领导 审批驳回</span><br><span class="line">已驳回 --&gt; 已驳回:员工 修改</span><br><span class="line">已驳回 --&gt; 待审批:员工 提交</span><br><span class="line">已审批 --&gt; [*]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure>
+<pre class="mermaid">stateDiagram-v2
+state 单据状态图 {
+[*] --> 未提交: 员工 新增
+未提交 --> 未提交:员工 修改
+未提交 --> 待审批:员工 提交
+待审批 --> 已审批:领导 审批通过
+待审批 --> 已驳回:领导 审批驳回
+已驳回 --> 已驳回:员工 修改
+已驳回 --> 待审批:员工 提交
+已审批 --> [*]
+}</pre>
 
 <p>注意，这是状态图，不是流程图，状态图表达的是一个有限自动机,是状态之间的变迁</p>
 <p>关于mermaid的其他用途。</p>
 <hr>
 <p>时间轴日记user journey</p>
-<figure class="highlight plain"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">journey</span><br><span class="line">    title My working day</span><br><span class="line">    section Go to work</span><br><span class="line">      Make tea: 5: Me</span><br><span class="line">      Go upstairs: 3: Me</span><br><span class="line">      Do work: 1: Me, Cat</span><br><span class="line">    section Go home</span><br><span class="line">      Go downstairs: 5: Me</span><br><span class="line">      Sit down: 3: Me</span><br></pre></td></tr></table></div></figure>
+<pre class="mermaid">journey
+    title My working day
+    section Go to work
+      Make tea: 5: Me
+      Go upstairs: 3: Me
+      Do work: 1: Me, Cat
+    section Go home
+      Go downstairs: 5: Me
+      Sit down: 3: Me</pre>
 
 <hr>
 <p>饼图</p>
-<figure class="highlight plain"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">pie</span><br><span class="line">&quot;Dogs&quot; : 386</span><br><span class="line">&quot;Cats&quot; : 85</span><br><span class="line">&quot;Rats&quot; : 15</span><br></pre></td></tr></table></div></figure>
+<pre class="mermaid">pie
+"Dogs" : 386
+"Cats" : 85
+"Rats" : 15</pre>
 
 <hr>
 <p>甘特图</p>
-<figure class="highlight plain"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">gantt</span><br><span class="line">    title A Gantt Diagram</span><br><span class="line">    dateFormat  YYYY-MM-DD</span><br><span class="line">    section Section</span><br><span class="line">    A task           :a1, 2014-01-01, 30d</span><br><span class="line">    Another task     :after a1  , 20d</span><br><span class="line">    section Another</span><br><span class="line">    Task in sec      :2014-01-12  , 12d</span><br><span class="line">    another task      : 24d</span><br></pre></td></tr></table></div></figure>
+<pre class="mermaid">gantt
+    title A Gantt Diagram
+    dateFormat  YYYY-MM-DD
+    section Section
+    A task           :a1, 2014-01-01, 30d
+    Another task     :after a1  , 20d
+    section Another
+    Task in sec      :2014-01-12  , 12d
+    another task      : 24d</pre>
 
 <hr>
 <p>实体关系ER图</p>
-<figure class="highlight plain"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">erDiagram</span><br><span class="line">          CUSTOMER &#125;|..|&#123; DELIVERY-ADDRESS : has</span><br><span class="line">          CUSTOMER ||--o&#123; ORDER : places</span><br><span class="line">          CUSTOMER ||--o&#123; INVOICE : &quot;liable for&quot;</span><br><span class="line">          DELIVERY-ADDRESS ||--o&#123; ORDER : receives</span><br><span class="line">          INVOICE ||--|&#123; ORDER : covers</span><br><span class="line">          ORDER ||--|&#123; ORDER-ITEM : includes</span><br><span class="line">          PRODUCT-CATEGORY ||--|&#123; PRODUCT : contains</span><br><span class="line">          PRODUCT ||--o&#123; ORDER-ITEM : &quot;ordered in&quot;</span><br></pre></td></tr></table></div></figure>
+<pre class="mermaid">erDiagram
+          CUSTOMER }|..|{ DELIVERY-ADDRESS : has
+          CUSTOMER ||--o{ ORDER : places
+          CUSTOMER ||--o{ INVOICE : "liable for"
+          DELIVERY-ADDRESS ||--o{ ORDER : receives
+          INVOICE ||--|{ ORDER : covers
+          ORDER ||--|{ ORDER-ITEM : includes
+          PRODUCT-CATEGORY ||--|{ PRODUCT : contains
+          PRODUCT ||--o{ ORDER-ITEM : "ordered in"</pre>
 
 <hr>
 <p>类图</p>
-<figure class="highlight plain"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">classDiagram</span><br><span class="line">    Animal &lt;|-- Duck</span><br><span class="line">    Animal &lt;|-- Fish</span><br><span class="line">    Animal &lt;|-- Zebra</span><br><span class="line">    Animal : +int age</span><br><span class="line">    Animal : +String gender</span><br><span class="line">    Animal: +isMammal()</span><br><span class="line">    Animal: +mate()</span><br><span class="line">    class Duck&#123;</span><br><span class="line">      +String beakColor</span><br><span class="line">      +swim()</span><br><span class="line">      +quack()</span><br><span class="line">    &#125;</span><br><span class="line">    class Fish&#123;</span><br><span class="line">      -int sizeInFeet</span><br><span class="line">      -canEat()</span><br><span class="line">    &#125;</span><br><span class="line">    class Zebra&#123;</span><br><span class="line">      +bool is_wild</span><br><span class="line">      +run()</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></div></figure>
+<pre class="mermaid">classDiagram
+    Animal <|-- Duck
+    Animal <|-- Fish
+    Animal <|-- Zebra
+    Animal : +int age
+    Animal : +String gender
+    Animal: +isMammal()
+    Animal: +mate()
+    class Duck{
+      +String beakColor
+      +swim()
+      +quack()
+    }
+    class Fish{
+      -int sizeInFeet
+      -canEat()
+    }
+    class Zebra{
+      +bool is_wild
+      +run()
+    }</pre>
 
 <hr>
 <p>UML序列图</p>
-<figure class="highlight plain"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sequenceDiagram</span><br><span class="line">    Alice-&gt;&gt;+John: Hello John, how are you?</span><br><span class="line">    Alice-&gt;&gt;+John: John, can you hear me?</span><br><span class="line">    John--&gt;&gt;-Alice: Hi Alice, I can hear you!</span><br><span class="line">    John--&gt;&gt;-Alice: I feel great!</span><br></pre></td></tr></table></div></figure>
+<pre class="mermaid">sequenceDiagram
+    Alice->>+John: Hello John, how are you?
+    Alice->>+John: John, can you hear me?
+    John-->>-Alice: Hi Alice, I can hear you!
+    John-->>-Alice: I feel great!</pre>
 
 <hr>
 <p>流程图flow chart</p>
-<figure class="highlight plain"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">graph TD</span><br><span class="line">    A[Christmas] --&gt;|Get money| B(Go shopping)</span><br><span class="line">    B --&gt; C&#123;Let me think&#125;</span><br><span class="line">    C --&gt;|One| D[Laptop]</span><br><span class="line">    C --&gt;|Two| E[iPhone]</span><br><span class="line">    C --&gt;|Three| F[fa:fa-car Car]</span><br></pre></td></tr></table></div></figure>
+<pre class="mermaid">graph TD
+    A[Christmas] -->|Get money| B(Go shopping)
+    B --> C{Let me think}
+    C -->|One| D[Laptop]
+    C -->|Two| E[iPhone]
+    C -->|Three| F[fa:fa-car Car]</pre>
 
 <p>Git图，目前在Vditor上好像还有一些bug,太长了显示不开好像会报错</p>
-<figure class="highlight plain"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">gitGraph:</span><br><span class="line">options</span><br><span class="line">&#123;</span><br><span class="line">    &quot;nodeSpacing&quot;: 40,</span><br><span class="line">    &quot;nodeRadius&quot;: 10</span><br><span class="line">&#125;</span><br><span class="line">end</span><br><span class="line">commit</span><br><span class="line">branch newbranch</span><br><span class="line">checkout newbranch</span><br><span class="line">commit</span><br><span class="line">commit</span><br><span class="line">checkout master</span><br><span class="line">commit</span><br><span class="line">commit</span><br><span class="line">merge newbranch</span><br></pre></td></tr></table></div></figure>
+<pre class="mermaid">gitGraph:
+options
+{
+    "nodeSpacing": 40,
+    "nodeRadius": 10
+}
+end
+commit
+branch newbranch
+checkout newbranch
+commit
+commit
+checkout master
+commit
+commit
+merge newbranch</pre>
 
 <hr>
 </div></div></article><article class="postlist-item post"><header class="post-header"><h1 class="post-title"><a class="post-title__link" href="/2021/05/07/RESTful%E9%A3%8E%E6%A0%BC%E6%94%B9%E9%80%A0/">RESTful风格改造</a></h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">发表于</span><span class="post-meta-item__value">2021-05-07</span></span><span class="post-meta-item post-meta-item--updatetime"><span class="post-meta-item__icon"><i class="far fa-calendar-check"></i></span><span class="post-meta-item__info">更新于</span><span class="post-meta-item__value">2021-05-07</span></span></div></header><div class="post-body"><div class="post-excerpt"><p>之前设置了通过id去查询，但是一直都无法正常访问。</p>
@@ -170,4 +251,7 @@ window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 5.4.0"></he
       <figure class="highlight bash"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></div></figure>
 
 <p>More info: <span class="exturl"><a class="exturl__link"   target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html" >Deployment</a><span class="exturl__icon"><i class="fas fa-external-link-alt"></i></span></span></p>
-</div></div></article></section><nav class="paginator"><div class="paginator-inner"><span class="page-number current">1</span></div></nav></div></div><div class="sidebar-wrap" id="sidebar-wrap"><aside class="sidebar" id="sidebar"><section class="sidebar-toc hide"></section><!-- ov = overview--><section class="sidebar-ov"><div class="sidebar-ov-author"><div class="sidebar-ov-author__avatar"><img class="sidebar-ov-author__avatar_img" src="/images/icons/stun-logo.svg" alt="avatar"></div><p class="sidebar-ov-author__text">hello world</p></div><div class="sidebar-ov-state"><a class="sidebar-ov-state-item sidebar-ov-state-item--posts" href="/archives/"><div class="sidebar-ov-state-item__count">3</div><div class="sidebar-ov-state-item__name">归档</div></a></div><div class="sidebar-ov-cc"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener" data-popover="知识共享许可协议" data-popover-pos="up"><img src="/images/cc-by-nc-sa.svg"></a></div></section></aside></div><div class="clearfix"></div></div></main><footer class="footer" id="footer"><div class="footer-inner"><div><span>Copyright © 2021</span><span class="footer__icon"><i class="fas fa-heart"></i></span><span>loveayhz</span></div><div><span>由 <a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a> 强力驱动</span><span> v5.4.0</span><span class="footer__devider">|</span><span>主题 - <a href="https://github.com/liuyib/hexo-theme-stun/" title="Stun" target="_blank" rel="noopener">Stun</a></span><span> v2.6.2</span></div></div></footer><div class="loading-bar" id="loading-bar"><div class="loading-bar__progress"></div></div><div class="back2top" id="back2top"><span class="back2top__icon"><i class="fas fa-rocket"></i></span></div></div><script src="https://cdn.jsdelivr.net/npm/jquery@v3.4.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.ui.min.js"></script><script src="/js/utils.js?v=2.6.2"></script><script src="/js/stun-boot.js?v=2.6.2"></script><script src="/js/scroll.js?v=2.6.2"></script><script src="/js/header.js?v=2.6.2"></script><script src="/js/sidebar.js?v=2.6.2"></script></body></html>
+</div></div></article></section><nav class="paginator"><div class="paginator-inner"><span class="page-number current">1</span></div></nav></div></div><div class="sidebar-wrap" id="sidebar-wrap"><aside class="sidebar" id="sidebar"><section class="sidebar-toc hide"></section><!-- ov = overview--><section class="sidebar-ov"><div class="sidebar-ov-author"><div class="sidebar-ov-author__avatar"><img class="sidebar-ov-author__avatar_img" src="/images/icons/stun-logo.svg" alt="avatar"></div><p class="sidebar-ov-author__text">hello world</p></div><div class="sidebar-ov-state"><a class="sidebar-ov-state-item sidebar-ov-state-item--posts" href="/archives/"><div class="sidebar-ov-state-item__count">3</div><div class="sidebar-ov-state-item__name">归档</div></a></div><div class="sidebar-ov-cc"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener" data-popover="知识共享许可协议" data-popover-pos="up"><img src="/images/cc-by-nc-sa.svg"></a></div></section></aside></div><div class="clearfix"></div></div></main><footer class="footer" id="footer"><div class="footer-inner"><div><span>Copyright © 2021</span><span class="footer__icon"><i class="fas fa-heart"></i></span><span>loveayhz</span></div><div><span>由 <a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a> 强力驱动</span><span> v5.4.0</span><span class="footer__devider">|</span><span>主题 - <a href="https://github.com/liuyib/hexo-theme-stun/" title="Stun" target="_blank" rel="noopener">Stun</a></span><span> v2.6.2</span></div><script type="text/javascript" id="maid-script" src="https://unpkg.com/mermaid@7.1.2/dist/mermaid.min.js?v=undefined"></script><script>if (window.mermaid) {
+  var options = JSON.parse(document.getElementById('maid-script').getAttribute('mermaidoptioins'));
+  mermaid.initialize(options);
+}</script></div></footer><div class="loading-bar" id="loading-bar"><div class="loading-bar__progress"></div></div><div class="back2top" id="back2top"><span class="back2top__icon"><i class="fas fa-rocket"></i></span></div></div><script src="https://cdn.jsdelivr.net/npm/jquery@v3.4.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.ui.min.js"></script><script src="/js/utils.js?v=2.6.2"></script><script src="/js/stun-boot.js?v=2.6.2"></script><script src="/js/scroll.js?v=2.6.2"></script><script src="/js/header.js?v=2.6.2"></script><script src="/js/sidebar.js?v=2.6.2"></script></body></html>
