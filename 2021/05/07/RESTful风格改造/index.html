@@ -59,11 +59,11 @@ window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 5.4.0"></he
 
 <p>vue回去带着参数去请求数据，所以不应该返回404，但是浏览器和postman返回的都是404.</p>
 <p>网上有人说前端是https，那么请求的接口也必须是https才行。需要在springboot中添加上证书，将接口都配置成https的才行。不知道是否是这样.</p>
-<p>参考<span class="exturl"><a class="exturl__link"   target="_blank" rel="noopener" href="https://blog.csdn.net/chenquan818/article/details/112237789%E9%85%8D%E7%BD%AEhttps,%E5%B9%B6%E4%BF%AE%E6%94%B9nginx%E8%BD%AC%E5%8F%91%E7%9A%84%E5%9C%B0%E5%9D%80%E3%80%82%E5%8F%AF%E4%BB%A5%E5%92%8C%E5%8E%9F%E6%9D%A5%E4%B8%80%E6%A0%B7%E6%AD%A3%E5%B8%B8%E8%AE%BF%E9%97%AE%EF%BC%8C%E4%BD%86%E6%98%AF%E4%BB%8D%E7%84%B6%E6%97%A0%E6%B3%95%E9%80%9A%E8%BF%87vue%E4%BC%A0%E5%8F%82%E3%80%82" >https://blog.csdn.net/chenquan818/article/details/112237789配置https,并修改nginx转发的地址。可以和原来一样正常访问，但是仍然无法通过vue传参。</a><span class="exturl__icon"><i class="fas fa-external-link-alt"></i></span></span></p>
+<p>参考<span class="exturl"><a class="exturl__link"   href="https://blog.csdn.net/chenquan818/article/details/112237789%E9%85%8D%E7%BD%AEhttps,%E5%B9%B6%E4%BF%AE%E6%94%B9nginx%E8%BD%AC%E5%8F%91%E7%9A%84%E5%9C%B0%E5%9D%80%E3%80%82%E5%8F%AF%E4%BB%A5%E5%92%8C%E5%8E%9F%E6%9D%A5%E4%B8%80%E6%A0%B7%E6%AD%A3%E5%B8%B8%E8%AE%BF%E9%97%AE%EF%BC%8C%E4%BD%86%E6%98%AF%E4%BB%8D%E7%84%B6%E6%97%A0%E6%B3%95%E9%80%9A%E8%BF%87vue%E4%BC%A0%E5%8F%82%E3%80%82" >https://blog.csdn.net/chenquan818/article/details/112237789配置https,并修改nginx转发的地址。可以和原来一样正常访问，但是仍然无法通过vue传参。</a><span class="exturl__icon"><i class="fas fa-external-link-alt"></i></span></span></p>
 <p>📅202104-20</p>
 <p>为了解决这个问题，需要在开发环境中的前端和后端项目同时配置成https来测试。</p>
-<p>后端已经配置了，前端只需要在vue.config.js中加一行代码即可，因为我使用的vue-cli3，vue-cli则需要ssl证书的配置，参考<span class="exturl"><a class="exturl__link"   target="_blank" rel="noopener" href="https://blog.csdn.net/l508742729/article/details/107820099" >https://blog.csdn.net/l508742729/article/details/107820099</a><span class="exturl__icon"><i class="fas fa-external-link-alt"></i></span></span></p>
-<p><span class="exturl"><a class="exturl__link"   target="_blank" rel="noopener" href="https://blog.csdn.net/l508742729/article/details/107820099" >https://blog.csdn.net/l508742729/article/details/107820099</a><span class="exturl__icon"><i class="fas fa-external-link-alt"></i></span></span></p>
+<p>后端已经配置了，前端只需要在vue.config.js中加一行代码即可，因为我使用的vue-cli3，vue-cli则需要ssl证书的配置，参考<span class="exturl"><a class="exturl__link"   href="https://blog.csdn.net/l508742729/article/details/107820099" >https://blog.csdn.net/l508742729/article/details/107820099</a><span class="exturl__icon"><i class="fas fa-external-link-alt"></i></span></span></p>
+<p><span class="exturl"><a class="exturl__link"   href="https://blog.csdn.net/l508742729/article/details/107820099" >https://blog.csdn.net/l508742729/article/details/107820099</a><span class="exturl__icon"><i class="fas fa-external-link-alt"></i></span></span></p>
 <hr>
 
         <h2 id="定位到问题"   >
@@ -80,7 +80,7 @@ window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 5.4.0"></he
 
         <h2 id="解决办法"   >
           <a href="#解决办法" class="heading-link"><i class="fas fa-link"></i></a><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h2>
-      <p>现在又找到了一个访问，参考<span class="exturl"><a class="exturl__link"   target="_blank" rel="noopener" href="https://www.it1352.com/1680126.html%EF%BC%8C%E6%AD%A3%E5%BE%85%E9%AA%8C%E8%AF%81" >https://www.it1352.com/1680126.html，正待验证</a><span class="exturl__icon"><i class="fas fa-external-link-alt"></i></span></span></p>
+      <p>现在又找到了一个访问，参考<span class="exturl"><a class="exturl__link"   href="https://www.it1352.com/1680126.html%EF%BC%8C%E6%AD%A3%E5%BE%85%E9%AA%8C%E8%AF%81" >https://www.it1352.com/1680126.html，正待验证</a><span class="exturl__icon"><i class="fas fa-external-link-alt"></i></span></span></p>
 <p>这个方法很好，马上就解决了。👍</p>
 <p>必须记录一下：</p>
 <p>原理是找不到这个 <code>$uri</code>的时候，将它作为参数传给/index.html</p>
