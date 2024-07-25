@@ -17,7 +17,7 @@ module.exports = {
     description: `郴江幸自绕郴山，缘何留下潇湘去`,
     siteUrl: `https://foreverlove.ayhz.art/`,
     social: {
-      twitter: `kylemathews`,
+      github: `loveayhz`,
     },
   },
   plugins: [
