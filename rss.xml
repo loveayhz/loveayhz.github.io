@@ -1,0 +1,781 @@
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Gatsby Starter Blog RSS Feed]]></title><description><![CDATA[郴江幸自绕郴山，缘何留下潇湘去]]></description><link>https://foreverlove.ayhz.art</link><generator>GatsbyJS</generator><lastBuildDate>Fri, 26 Jul 2024 07:29:47 GMT</lastBuildDate><item><title><![CDATA[No title]]></title><description><![CDATA[树莓派到手装完系统后的操作记录： 1.安装vim，修改vim无法复制的问题 2.修改源，改为清华源 3.修改root用户密码： 4.安装docker：https://mirrors.tuna.tsinghua.edu.cn/help/docker-ce…]]></description><link>https://foreverlove.ayhz.art/raspberryInitConfig/</link><guid isPermaLink="false">https://foreverlove.ayhz.art/raspberryInitConfig/</guid><content:encoded>&lt;p&gt;树莓派到手装完系统后的操作记录：&lt;/p&gt;
+&lt;p&gt;1.安装vim，&lt;a href=&quot;https://ayhz.art/article/1213&quot;&gt;修改vim无法复制的问题&lt;/a&gt;&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;sudo apt-get install vim
+pi@raspberrypi2:~ $ whereis vim
+vim: /usr/bin/vim /etc/vim /usr/share/vim /usr/share/man/man1/vim.1.gz
+pi@raspberrypi2:~ $ cd /usr/share/vim
+pi@raspberrypi2:/usr/share/vim $ ls
+addons  registry  vim90
+pi@raspberrypi2:/usr/share/vim $ cd vim90/
+pi@raspberrypi2:/usr/share/vim/vim90 $ ls
+autoload       compiler      delmenu.vim  filetype.vim  ftplugin.vim        import      indoff.vim  macros     optwin.vim  print        synmenu.vim  vimrc_example.vim
+bugreport.vim  debian.vim    doc          ftoff.vim     ftplugof.vim        indent      keymap      menu.vim   pack        scripts.vim  syntax
+colors         defaults.vim  evim.vim     ftplugin      gvimrc_example.vim  indent.vim  lang        mswin.vim  plugin      spell        tutor
+pi@raspberrypi2:/usr/share/vim/vim90 $ cd ~
+pi@raspberrypi2:~ $ sudo vim /usr/share/vim/vim90/defaults.vim&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;2.修改源，&lt;a href=&quot;&quot;&gt;改为清华源&lt;/a&gt;&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;pi@raspberrypi2:~ $ sudo vim /etc/apt/sources.list
+pi@raspberrypi2:~ $ sudo vim /etc/apt/sources.list.d/raspi.list
+pi@raspberrypi2:~ $ sudo apt update -y
+pi@raspberrypi2:~ $ sudo apt upgrade -y
+pi@raspberrypi2:~ $ systemctl --user daemon-reload &amp;amp;&amp;amp; \
+    systemctl --user restart rpi-connect.service&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;3.&lt;a href=&quot;https://blog.zydyh.net/?p=423&quot;&gt;修改root用户密码&lt;/a&gt;：&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;pi@raspberrypi2:/etc/apt/sources.list.d $ sudo passwd root
+New password: 
+Retype new password: 
+passwd: password updated successfully
+pi@raspberrypi2:/etc/apt/sources.list.d $ sudo passwd --unlock root
+Usage: passwd [options] [LOGIN]
+
+Options:
+  -a, --all                     report password status on all accounts
+  -d, --delete                  delete the password for the named account
+  -e, --expire                  force expire the password for the named account
+  -h, --help                    display this help message and exit
+  -k, --keep-tokens             change password only if expired
+  -i, --inactive INACTIVE       set password inactive after expiration
+                                to INACTIVE
+  -l, --lock                    lock the password of the named account
+  -n, --mindays MIN_DAYS        set minimum number of days before password
+                                change to MIN_DAYS
+  -q, --quiet                   quiet mode
+  -r, --repository REPOSITORY   change password in REPOSITORY repository
+  -R, --root CHROOT_DIR         directory to chroot into
+  -S, --status                  report password status on the named account
+  -u, --unlock                  unlock the password of the named account
+  -w, --warndays WARN_DAYS      set expiration warning days to WARN_DAYS
+  -x, --maxdays MAX_DAYS        set maximum number of days before password
+                                change to MAX_DAYS&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;4.安装docker：&lt;a href=&quot;https://mirrors.tuna.tsinghua.edu.cn/help/docker-ce/&quot;&gt;https://mirrors.tuna.tsinghua.edu.cn/help/docker-ce/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;常规安装 &lt;code class=&quot;language-text&quot;&gt;sudo curl -sSL https://get.docker.com | sh&lt;/code&gt;失败，&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;pi@raspberrypi2:~ $ sudo curl -sSL https://get.docker.com | sh
+curl: (28) Failed to connect to get.docker.com port 443 after 134152 ms: Couldn&apos;t connect to server&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;问题还是在于网络，于是设置了HTTPS_PROXY和HTTP_PROXY,还是不行&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;pi@raspberrypi2:~ $ export HTTP_PROXY=http://192.168.1.7:10809
+pi@raspberrypi2:~ $ export HTTPS_PROXY=http://192.168.1.7:10809
+pi@raspberrypi2:~ $ sudo curl -sSL https://get.docker.com | sh
+# Executing docker install script, commit: 6d9743e9656cc56f699a64800b098d5ea5a60020
++ sudo -E sh -c apt-get update -qq &gt;/dev/null
++ sudo -E sh -c DEBIAN_FRONTEND=noninteractive apt-get install -y -qq apt-transport-https ca-certificates curl &gt;/dev/null
++ sudo -E sh -c install -m 0755 -d /etc/apt/keyrings
++ sudo -E sh -c curl -fsSL &quot;https://download.docker.com/linux/debian/gpg&quot; -o /etc/apt/keyrings/docker.asc
++ sudo -E sh -c chmod a+r /etc/apt/keyrings/docker.asc
++ sudo -E sh -c echo &quot;deb [arch=arm64 signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian bookworm stable&quot; &gt; /etc/apt/sources.list.d/docker.list
++ sudo -E sh -c apt-get update -qq &gt;/dev/null
+W: Failed to fetch https://download.docker.com/linux/debian/dists/bookworm/InRelease  Could not connect to download.docker.com:443 (2a03:2880:f102:183:face:b00c:0:25de), connection timed out Could not connect to download.docker.com:443 (185.60.216.169), connection timed out
+W: Some index files failed to download. They have been ignored, or old ones used instead.
++ sudo -E sh -c DEBIAN_FRONTEND=noninteractive apt-get install -y -qq docker-ce docker-ce-cli containerd.io docker-compose-plugin docker-ce-rootless-extras docker-buildx-plugin &gt;/dev/null
+E: Package &apos;docker-ce&apos; has no installation candidate
+E: Package &apos;docker-ce-cli&apos; has no installation candidate
+E: Unable to locate package containerd.io
+E: Couldn&apos;t find any package by glob &apos;containerd.io&apos;
+E: Couldn&apos;t find any package by regex &apos;containerd.io&apos;
+E: Unable to locate package docker-compose-plugin
+E: Package &apos;docker-ce-rootless-extras&apos; has no installation candidate
+E: Unable to locate package docker-buildx-plugin
+pi@raspberrypi2:~ $ sudo curl -sSL https://get.docker.com | sh
+# Executing docker install script, commit: 6d9743e9656cc56f699a64800b098d5ea5a60020
++ sudo -E sh -c apt-get update -qq &gt;/dev/null
+W: Failed to fetch https://download.docker.com/linux/debian/dists/bookworm/InRelease  Could not connect to download.docker.com:443 (2a03:2880:f102:183:face:b00c:0:25de), connection timed out Could not connect to download.docker.com:443 (185.60.216.169), connection timed out
+W: Some index files failed to download. They have been ignored, or old ones used instead.
++ sudo -E sh -c DEBIAN_FRONTEND=noninteractive apt-get install -y -qq apt-transport-https ca-certificates curl &gt;/dev/null
++ sudo -E sh -c install -m 0755 -d /etc/apt/keyrings
++ sudo -E sh -c curl -fsSL &quot;https://download.docker.com/linux/debian/gpg&quot; -o /etc/apt/keyrings/docker.asc
++ sudo -E sh -c chmod a+r /etc/apt/keyrings/docker.asc
++ sudo -E sh -c echo &quot;deb [arch=arm64 signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian bookworm stable&quot; &gt; /etc/apt/sources.list.d/docker.list
++ sudo -E sh -c apt-get update -qq &gt;/dev/null
+W: Failed to fetch https://download.docker.com/linux/debian/dists/bookworm/InRelease  Could not connect to download.docker.com:443 (2a03:2880:f102:183:face:b00c:0:25de), connection timed out Could not connect to download.docker.com:443 (185.60.216.169), connection timed out
+W: Some index files failed to download. They have been ignored, or old ones used instead.
++ sudo -E sh -c DEBIAN_FRONTEND=noninteractive apt-get install -y -qq docker-ce docker-ce-cli containerd.io docker-compose-plugin docker-ce-rootless-extras docker-buildx-plugin &gt;/dev/null
+E: Package &apos;docker-ce&apos; has no installation candidate
+E: Package &apos;docker-ce-cli&apos; has no installation candidate
+E: Unable to locate package containerd.io
+E: Couldn&apos;t find any package by glob &apos;containerd.io&apos;
+E: Couldn&apos;t find any package by regex &apos;containerd.io&apos;
+E: Unable to locate package docker-compose-plugin
+E: Package &apos;docker-ce-rootless-extras&apos; has no installation candidate
+E: Unable to locate package docker-buildx-plugin&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;找到清华大学镜像站docker的安装教程：&lt;a href=&quot;https://mirrors.tuna.tsinghua.edu.cn/help/docker-ce/&quot;&gt;https://mirrors.tuna.tsinghua.edu.cn/help/docker-ce/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;教程使用注意：比较人性化的提供了是否使用sudo，ipv4还是v6,系统发行版本等选项可以进行更改，&lt;/p&gt;
+&lt;p&gt;我们使用树莓派的官方系统，所以参考 &lt;code class=&quot;language-text&quot;&gt;Debian/Ubuntu/Raspbian 用户&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;如果我们没有选择sudo，则需要切换至root用户安装，刚安装的树莓派系统只有pi用户，使用pi用户登录后&lt;/p&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;sudo passwd root&lt;/code&gt;更改root用户密码，&lt;/p&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;sudo passwd --unlock root&lt;/code&gt;解锁root用户，&lt;/p&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;sudo -i&lt;/code&gt;切换root用户&lt;/p&gt;
+&lt;p&gt;5.设置静态ip&lt;/p&gt;
+&lt;p&gt;dhcp的方式参考：&lt;a href=&quot;https://blog.csdn.net/m0_47673868/article/details/132410559%EF%BC%8C%E5%A6%82%E4%B8%8B%EF%BC%8C%E6%88%91%E4%BD%BF%E7%94%A8%E6%9C%80%E6%96%B0%E7%89%88%E7%9A%84%E6%A0%91%E8%8E%93%E6%B4%BE%E7%B3%BB%E7%BB%9F%EF%BC%8C%E4%BC%BC%E4%B9%8E%E6%B2%A1%E6%9C%89%E5%90%AF%E7%94%A8dhcpd%E6%9C%8D%E5%8A%A1%EF%BC%8C%E6%89%80%E4%BB%A5%E5%B9%B6%E6%B2%A1%E6%9C%89%E7%94%A8&quot;&gt;https://blog.csdn.net/m0_47673868/article/details/132410559，如下，我使用最新版的树莓派系统，似乎没有启用dhcpd服务，所以并没有用&lt;/a&gt;&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;sudo vim /etc/dhcpcd.conf
+interface wlan0
+static ip_address=192.168.1.42/24
+static routers=192.168.1.1
+static domain_name_servers=192.168.1.1
+
+interface eth0
+static ip_address=192.168.1.142/24
+static routers=192.168.1.1
+static domain_name_servers=192.168.1.1&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;使用nmcli的方式：&lt;a href=&quot;https://www.jb51.net/jiaoben/318584xui.htm&quot;&gt;Linux 中 nmcli 命令使用详解_linux shell_脚本之家&lt;/a&gt;&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;linux&quot;&gt;&lt;pre class=&quot;language-linux&quot;&gt;&lt;code class=&quot;language-linux&quot;&gt;pi@raspberrypi2:~ $ systemctl status NetworkManager
+● NetworkManager.service - Network Manager
+     Loaded: loaded (/lib/systemd/system/NetworkManager.service; enabled; preset: enabled)
+     Active: active (running) since Thu 2024-07-18 20:03:24 CST; 9min ago
+       Docs: man:NetworkManager(8)
+   Main PID: 677 (NetworkManager)
+      Tasks: 3 (limit: 3910)
+        CPU: 881ms
+     CGroup: /system.slice/NetworkManager.service
+             └─677 /usr/sbin/NetworkManager --no-daemon
+
+Jul 18 20:03:37 raspberrypi2 NetworkManager[677]: &amp;lt;info&amp;gt;  [1721304217.3022] device (docker0): state change: unavailable -&amp;gt; disconnected (reason &amp;#39;connection-assumed&amp;#39;, sys-iface-state: &amp;#39;extern&amp;gt;
+Jul 18 20:03:37 raspberrypi2 NetworkManager[677]: &amp;lt;info&amp;gt;  [1721304217.3045] device (docker0): Activation: starting connection &amp;#39;docker0&amp;#39; (62dc214c-0abe-45d8-9356-b7d5cbcfc558)
+Jul 18 20:03:37 raspberrypi2 NetworkManager[677]: &amp;lt;info&amp;gt;  [1721304217.3048] device (docker0): state change: disconnected -&amp;gt; prepare (reason &amp;#39;none&amp;#39;, sys-iface-state: &amp;#39;external&amp;#39;)
+Jul 18 20:03:37 raspberrypi2 NetworkManager[677]: &amp;lt;info&amp;gt;  [1721304217.3054] device (docker0): state change: prepare -&amp;gt; config (reason &amp;#39;none&amp;#39;, sys-iface-state: &amp;#39;external&amp;#39;)
+Jul 18 20:03:37 raspberrypi2 NetworkManager[677]: &amp;lt;info&amp;gt;  [1721304217.3059] device (docker0): state change: config -&amp;gt; ip-config (reason &amp;#39;none&amp;#39;, sys-iface-state: &amp;#39;external&amp;#39;)
+Jul 18 20:03:37 raspberrypi2 NetworkManager[677]: &amp;lt;info&amp;gt;  [1721304217.3065] device (docker0): state change: ip-config -&amp;gt; ip-check (reason &amp;#39;none&amp;#39;, sys-iface-state: &amp;#39;external&amp;#39;)
+Jul 18 20:03:37 raspberrypi2 NetworkManager[677]: &amp;lt;info&amp;gt;  [1721304217.3115] device (docker0): state change: ip-check -&amp;gt; secondaries (reason &amp;#39;none&amp;#39;, sys-iface-state: &amp;#39;external&amp;#39;)
+Jul 18 20:03:37 raspberrypi2 NetworkManager[677]: &amp;lt;info&amp;gt;  [1721304217.3120] device (docker0): state change: secondaries -&amp;gt; activated (reason &amp;#39;none&amp;#39;, sys-iface-state: &amp;#39;external&amp;#39;)
+Jul 18 20:03:37 raspberrypi2 NetworkManager[677]: &amp;lt;info&amp;gt;  [1721304217.3133] device (docker0): Activation: successful, device activated.
+Jul 18 20:03:38 raspberrypi2 NetworkManager[677]: &amp;lt;info&amp;gt;  [1721304218.1935] agent-manager: agent[0bc0c5cb61420b66,:1.37/org.freedesktop.nm-applet/1000]: agent registered
+pi@raspberrypi2:~ $ sudo nmcli -p connection show
+======================================
+  NetworkManager connection profiles
+======================================
+NAME                UUID                                  TYPE      DEVICE  
+-------------------------------------------------------------------------------------------------------------------
+Wired connection 1  634f57f4-a4d9-30e1-8956-ba928c97993e  ethernet  end0  
+preconfigured       0c10eaa9-8ee6-4d24-8d22-3816213d80dd  wifi      wlan0   
+lo                  bbba6acb-90bc-4b4c-8e83-162fadd39ba9  loopback  lo  
+docker0             1cec0f18-62b3-4610-afea-56ec33d18822  bridge    docker0 
+pi@raspberrypi2:~ $ hostname -I
+192.168.1.8 192.168.1.3 172.17.0.1 2409:8a55:51a1:5150:b536:a16b:a3b:600b 2409:8a55:51a1:5150:4213:8ea:ed34:ded7
+# IP地址/24之前的
+sudo nmcli c mod &amp;#39;Wired connection 1&amp;#39; ipv4.addresses 192.168.2.2/24 ipv4.method manual
+# 网关
+sudo nmcli con mod &amp;#39;Wired connection 1&amp;#39; ipv4.gateway 192.168.0.1
+# DNS服务器
+sudo nmcli con mod &amp;#39;Wired connection 1&amp;#39; ipv4.dns &amp;quot;192.168.0.1&amp;quot;
+# 更新有线网络，需要在插网线模式下才能更新成功
+sudo nmcli c down &amp;#39;Wired connection 1&amp;#39; &amp;amp;&amp;amp; sudo nmcli c up &amp;#39;Wired connection 1&amp;#39;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;pi@raspberrypi2:~ $ sudo nmcli -p connection show
+======================================
+  NetworkManager connection profiles
+======================================
+NAME                UUID                                  TYPE      DEVICE  
+-------------------------------------------------------------------------------------------------------------------
+Wired connection 1  634f57f4-a4d9-30e1-8956-ba928c97993e  ethernet  end0  
+preconfigured       0c10eaa9-8ee6-4d24-8d22-3816213d80dd  wifi      wlan0   
+lo                  ca554f79-c94a-44fd-bf2f-95e7b1cd5784  loopback  lo  
+docker0             62dc214c-0abe-45d8-9356-b7d5cbcfc558  bridge    docker0 
+pi@raspberrypi2:~ $ sudo nmcli connection modify &quot;preconfigured&quot; ipv4.addresses 192.168.1.42/24 ipv4.method manual
+pi@raspberrypi2:~ $ ifconfig
+docker0: flags=4099&amp;lt;UP,BROADCAST,MULTICAST&gt;  mtu 1500
+        inet 172.17.0.1  netmask 255.255.0.0  broadcast 172.17.255.255
+        ether 02:42:c2:f8:ee:5a  txqueuelen 0  (Ethernet)
+        RX packets 0  bytes 0 (0.0 B)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 0  bytes 0 (0.0 B)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+end0: flags=4163&amp;lt;UP,BROADCAST,RUNNING,MULTICAST&gt;  mtu 1500
+        inet 192.168.1.8  netmask 255.255.255.0  broadcast 192.168.1.255
+        inet6 fe80::1645:eed0:2d18:6916  prefixlen 64  scopeid 0x20&amp;lt;link&gt;
+        inet6 2409:8a55:51a1:5150:b536:a16b:a3b:600b  prefixlen 64  scopeid 0x0&amp;lt;global&gt;
+        ether dc:a6:32:5c:74:0a  txqueuelen 1000  (Ethernet)
+        RX packets 195037  bytes 12078246 (11.5 MiB)
+        RX errors 0  dropped 184128  overruns 0  frame 0
+        TX packets 3808  bytes 293965 (287.0 KiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+lo: flags=73&amp;lt;UP,LOOPBACK,RUNNING&gt;  mtu 65536
+        inet 127.0.0.1  netmask 255.0.0.0
+        inet6 ::1  prefixlen 128  scopeid 0x10&amp;lt;host&gt;
+        loop  txqueuelen 1000  (Local Loopback)
+        RX packets 34  bytes 3358 (3.2 KiB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 34  bytes 3358 (3.2 KiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+wlan0: flags=4163&amp;lt;UP,BROADCAST,RUNNING,MULTICAST&gt;  mtu 1500
+        inet 192.168.1.3  netmask 255.255.255.0  broadcast 192.168.1.255
+        inet6 fe80::afad:4a8f:7e05:e97e  prefixlen 64  scopeid 0x20&amp;lt;link&gt;
+        inet6 2409:8a55:51a1:5150:4213:8ea:ed34:ded7  prefixlen 64  scopeid 0x0&amp;lt;global&gt;
+        ether dc:a6:32:5c:74:0b  txqueuelen 1000  (Ethernet)
+        RX packets 1436  bytes 188822 (184.3 KiB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 855  bytes 76272 (74.4 KiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+pi@raspberrypi2:~ $ sudo nmcli c down &apos;preconfigured&apos; &amp;amp;&amp;amp; sudo nmcli c up &apos;preconfigured&apos;
+Connection &apos;preconfigured&apos; successfully deactivated (D-Bus active path: /org/freedesktop/NetworkManager/ActiveConnection/2)
+
+Connection successfully activated (D-Bus active path: /org/freedesktop/NetworkManager/ActiveConnection/5)
+pi@raspberrypi2:~ $ ifconfig
+docker0: flags=4099&amp;lt;UP,BROADCAST,MULTICAST&gt;  mtu 1500
+        inet 172.17.0.1  netmask 255.255.0.0  broadcast 172.17.255.255
+        ether 02:42:c2:f8:ee:5a  txqueuelen 0  (Ethernet)
+        RX packets 0  bytes 0 (0.0 B)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 0  bytes 0 (0.0 B)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+end0: flags=4163&amp;lt;UP,BROADCAST,RUNNING,MULTICAST&gt;  mtu 1500
+        inet 192.168.1.8  netmask 255.255.255.0  broadcast 192.168.1.255
+        inet6 1234::1645:eed0:2d18:6916  prefixlen 64  scopeid 0x20&amp;lt;link&gt;
+        inet6 1234:8a55:51a1:5150:b536:a16b:a3b:600b  prefixlen 64  scopeid 0x0&amp;lt;global&gt;
+        ether ab:a6:32:5c:74:0a  txqueuelen 1000  (Ethernet)
+        RX packets 195856  bytes 12141695 (11.5 MiB)
+        RX errors 0  dropped 184494  overruns 0  frame 0
+        TX packets 4339  bytes 335441 (327.5 KiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+lo: flags=73&amp;lt;UP,LOOPBACK,RUNNING&gt;  mtu 65536
+        inet 127.0.0.1  netmask 255.0.0.0
+        inet6 ::1  prefixlen 128  scopeid 0x10&amp;lt;host&gt;
+        loop  txqueuelen 1000  (Local Loopback)
+        RX packets 34  bytes 3358 (3.2 KiB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 34  bytes 3358 (3.2 KiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+wlan0: flags=4163&amp;lt;UP,BROADCAST,RUNNING,MULTICAST&gt;  mtu 1500
+        inet 192.168.1.42  netmask 255.255.255.0  broadcast 192.168.1.255
+        inet6 1234::afad:4a8f:7e05:e97e  prefixlen 64  scopeid 0x20&amp;lt;link&gt;
+        inet6 1234:8a55:51a1:5150:4213:8ea:ed34:ded7  prefixlen 64  scopeid 0x0&amp;lt;global&gt;
+        ether ab:cd:32:5c:74:0b  txqueuelen 1000  (Ethernet)
+        RX packets 1439  bytes 189138 (184.7 KiB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 900  bytes 82046 (80.1 KiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+pi@raspberrypi2:~ $
+sudo nmcli connection modify &apos;Wired connection 1&apos; ipv4.addresses 192.168.1.142/24 ipv4.method manual
+sudo nmcli c down &apos;Wired connection 1&apos; &amp;amp;&amp;amp; sudo nmcli c up &apos;Wired connection 1&apos;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;这样使用dhcp不行的时候，使用nmcli的方式修改有线和wifi的静态ip，这样三个修改完之后，同时再修改笔记本的ip为静态的。方便我们给树莓派开代理，否则动态的ip每次都要修改，尤其docker的代理设置更不方便，每次需要重启docker.&lt;/p&gt;
+&lt;p&gt;为raspberry也设置静态服务时发现，它既没有启用dhcpd也没有启用NetworkManager&lt;/p&gt;
+&lt;p&gt;关于这点：&lt;a href=&quot;https://blog.csdn.net/qq_33919450/article/details/134258422&quot;&gt;如何使用树莓派Bookworm系统中配置网络的新方法NetworkManager&lt;/a&gt; 说的很清楚，即Bookworm 版本系统中，将使用多年的 dhcpcd 换成了 NetworkManager（以前是在rasp-config中可选）&lt;/p&gt;
+&lt;p&gt;所以我查看系统发行版本，果然是bullseye而非Bookworm，于是使用raspi-config启用NetworkManager服务，然后再使用nmcli启用静态ip，另外，使用nmtui也可以通过NetworkManager进行配置&lt;/p&gt;
+&lt;p&gt;不过，尴尬的是raspberry通过raspi-config配置使用NetworkManager后就连接不上ssh了，ip地址也找不到&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;pi@raspberrypi:~ $ systemctl status NetworkManager
+● NetworkManager.service - Network Manager
+     Loaded: loaded (/lib/systemd/system/NetworkManager.service; disabled; vendor preset: enabled)
+    Drop-In: /usr/lib/systemd/system/NetworkManager.service.d
+             └─10-dhcpcd.conf
+     Active: inactive (dead)
+       Docs: man:NetworkManager(8)
+pi@raspberrypi:~ $ systemctl status dhcpd
+Unit dhcpd.service could not be found.
+pi@raspberrypi:~ $ nmtui
+NetworkManager is not running.
+pi@raspberrypi:~ $ arch
+aarch64
+pi@raspberrypi:~ $ cat /proc/device-tree/model
+Raspberry Pi 4 Model B Rev 1.2pi@raspberrypi:~ $ lsb_release -a
+No LSB modules are available.
+Distributor ID: Debian
+Description:    Debian GNU/Linux 11 (bullseye)
+Release:        11
+Codename:       bullseye
+pi@raspberrypi:~ $ sudo raspi-config&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;连接网线之后重新连接ssh，ifconfig发现wlan0没有ipv4,而且sudo nmcli connection show没有wlan0&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;pi@raspberrypi:~ $ ifconfig
+br-ca6290c2c50a: flags=4099&amp;lt;UP,BROADCAST,MULTICAST&gt;  mtu 1500
+        inet 172.19.0.1  netmask 255.255.0.0  broadcast 172.19.255.255
+        ether 12:34:58:54:a3:3c  txqueuelen 0  (Ethernet)
+        RX packets 0  bytes 0 (0.0 B)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 0  bytes 0 (0.0 B)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+docker0: flags=4163&amp;lt;UP,BROADCAST,RUNNING,MULTICAST&gt;  mtu 1500
+        inet 172.17.0.1  netmask 255.255.0.0  broadcast 172.17.255.255
+        inet6 abcd::42:faff:fe02:47b1  prefixlen 64  scopeid 0x20&amp;lt;link&gt;
+        ether 12:34:fa:02:47:b1  txqueuelen 0  (Ethernet)
+        RX packets 17  bytes 1568 (1.5 KiB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 48  bytes 10022 (9.7 KiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+docker_gwbridge: flags=4099&amp;lt;UP,BROADCAST,MULTICAST&gt;  mtu 1500
+        inet 172.18.0.1  netmask 255.255.0.0  broadcast 172.18.255.255
+        ether 02:42:49:13:54:b9  txqueuelen 0  (Ethernet)
+        RX packets 0  bytes 0 (0.0 B)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 0  bytes 0 (0.0 B)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+eth0: flags=4163&amp;lt;UP,BROADCAST,RUNNING,MULTICAST&gt;  mtu 1500
+        inet 192.168.1.6  netmask 255.255.255.0  broadcast 192.168.1.255
+        inet6 abcd::e292:bd12:ad8d:7a3c  prefixlen 64  scopeid 0x20&amp;lt;link&gt;
+        inet6 abcd:8a55:51a1:5150:29c0:bb72:d3e9:fcb7  prefixlen 64  scopeid 0x0&amp;lt;global&gt;
+        ether 12:a6:32:74:3c:77  txqueuelen 1000  (Ethernet)
+        RX packets 304  bytes 32842 (32.0 KiB)
+        RX errors 0  dropped 151  overruns 0  frame 0
+        TX packets 163  bytes 20877 (20.3 KiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+lo: flags=73&amp;lt;UP,LOOPBACK,RUNNING&gt;  mtu 65536
+        inet 127.0.0.1  netmask 255.0.0.0
+        inet6 ::1  prefixlen 128  scopeid 0x10&amp;lt;host&gt;
+        loop  txqueuelen 1000  (Local Loopback)
+        RX packets 122  bytes 14550 (14.2 KiB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 122  bytes 14550 (14.2 KiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+veth8adfb82: flags=4163&amp;lt;UP,BROADCAST,RUNNING,MULTICAST&gt;  mtu 1500
+        inet6 abcd::78b7:ecff:fe3e:dff7  prefixlen 64  scopeid 0x20&amp;lt;link&gt;
+        ether 12:b7:ec:3e:df:f7  txqueuelen 0  (Ethernet)
+        RX packets 17  bytes 1806 (1.7 KiB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 58  bytes 11476 (11.2 KiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+vethfd6fb43: flags=4163&amp;lt;UP,BROADCAST,RUNNING,MULTICAST&gt;  mtu 1500
+        inet6 1234::9c79:b3ff:fe83:bef0  prefixlen 64  scopeid 0x20&amp;lt;link&gt;
+        ether 12:79:b3:83:be:f0  txqueuelen 0  (Ethernet)
+        RX packets 0  bytes 0 (0.0 B)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 43  bytes 5834 (5.6 KiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+wlan0: flags=4099&amp;lt;UP,BROADCAST,MULTICAST&gt;  mtu 1500
+        ether 12:bf:83:a9:2e:eb  txqueuelen 1000  (Ethernet)
+        RX packets 0  bytes 0 (0.0 B)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 0  bytes 0 (0.0 B)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0   
+pi@raspberrypi:~ $ sudo networkctl list
+WARNING: systemd-networkd is not running, output will be incomplete.
+
+IDX LINK            TYPE     OPERATIONAL SETUP
+  1 lo              loopback n/a         unmanaged
+  2 eth0            ether    n/a         unmanaged
+  3 wlan0           wlan     n/a         unmanaged
+  4 docker_gwbridge bridge   n/a         unmanaged
+  5 br-ca6290c2c50a bridge   n/a         unmanaged
+  6 docker0         bridge   n/a         unmanaged
+  8 vethfd6fb43     ether    n/a         unmanaged
+ 10 veth8adfb82     ether    n/a         unmanaged
+
+8 links listed.
+pi@raspberrypi:~ $ sudo nmcli connection show
+NAME                UUID                                  TYPE      DEVICE  
+Wired connection 1  865e1185-89a7-3539-af55-bf06065b89d9  ethernet  eth0  
+docker0             b4234078-9016-4c21-962d-2ce79b66bf57  bridge    docker0   
+br-ca6290c2c50a     ac576ffc-6ca3-4387-929b-005d74b62537  bridge    br-ca6290c2c50a 
+docker_gwbridge     8a62ae80-766f-483f-b675-a297ed127d78  bridge    docker_gwbridge 
+sudo nmcli connection modify &apos;Wired connection 1&apos; ipv4.addresses 192.168.1.141/24 ipv4.method manual
+sudo nmcli c down &apos;Wired connection 1&apos; &amp;amp;&amp;amp; sudo nmcli c up &apos;Wired connection 1&apos;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;使用 &lt;code class=&quot;language-text&quot;&gt;sudo ifconfig wlan0 up&lt;/code&gt;尝试启用，还是不起作用，于是我试着再次 &lt;code class=&quot;language-text&quot;&gt;sudo raspi-config&lt;/code&gt;配置无线SSID,配置后就可以使用了，不知道原因.可能是bug?&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;pi@raspberrypi:~ $ sudo nmcli connection show
+NAME                UUID                                  TYPE      DEVICE  
+Wired connection 1  865e1185-89a7-3539-af55-bf06065b89d9  ethernet  eth0  
+CMCC-A1-1102        d81636d3-cddd-48a1-9a1b-ea7d084d4284  wifi      wlan0   
+docker0             b4234078-9016-4c21-962d-2ce79b66bf57  bridge    docker0   
+br-ca6290c2c50a     ac576ffc-6ca3-4387-929b-005d74b62537  bridge    br-ca6290c2c50a 
+docker_gwbridge     8a62ae80-766f-483f-b675-a297ed127d78  bridge    docker_gwbridge
+sudo nmcli connection modify &apos;Wired connection 1&apos; ipv4.addresses 192.168.1.141/24 ipv4.method manual
+sudo nmcli c down &apos;Wired connection 1&apos; &amp;amp;&amp;amp; sudo nmcli c up &apos;Wired connection 1&apos;
+sudo nmcli connection modify &apos;CMCC-A1-1102&apos; ipv4.addresses 192.168.1.41/24 ipv4.method manual
+sudo nmcli c down &apos;CMCC-A1-1102&apos; &amp;amp;&amp;amp; sudo nmcli c up &apos;CMCC-A1-1102&apos;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;这样就可以了。&lt;/p&gt;
+&lt;p&gt;但是注意：在 &lt;code class=&quot;language-text&quot;&gt;输入密码的时候一定要注意键盘的大小写&lt;/code&gt;，刚才因为键盘不知道什么时候切换了大写连输了好多次密码都错误，最后打字的时候才发现是大写了，真的应该给capsLock也加一个指示灯或者输入法应该有标识大小写。&lt;/p&gt;
+&lt;p&gt;这样我们的三块树莓派分别设置了静态ip为41,42和43，对应如果接了有线的话就是141,142和143.&lt;/p&gt;
+&lt;p&gt;接下来给笔记本设置静态ip,同时尝试树莓派docker安装v2rayN或者clash，以及git代理&lt;/p&gt;
+&lt;p&gt;6.docker配置本地docker registry和代理解决docker镜像无法访问的问题:&lt;/p&gt;
+&lt;p&gt;(1).配置docker registry的insecure-registries(默认docker pull是https会报错):&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;pi@raspberrypi3:~ $ sudo vim /etc/docker/daemon.json
+pi@raspberrypi3:~ $ cat /etc/docker/daemon.json
+{
+  &quot;registry-mirrors&quot;: [&quot;https://xiangpeach123456.mirror.aliyuncs.com&quot;],
+  &quot;insecure-registries&quot;: [&quot;192.168.1.43:5000&quot;]
+}
+pi@raspberrypi3:~ $ systemctl daemon-reload
+pi@raspberrypi3:~ $ systemctl restart docker
+pi@raspberrypi3:~ $ docker pull 192.168.1.43:5000/minio/mc:RELEASE.2021-04-22T17-40-00Z&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;(2)配置docker代理，这里局域网内的笔记本开了v2rayN代理，在参数设置中允许来自局域网的连接√，并且笔记本设置ipv4手动固定为192.168.1.40，默认socks5代理端口号是10808，则http代理端口号为10808+1=10809，如下设置之后且192.168.1.40正常开启着代理，才可正常访问docker registry&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;sudo mkdir -p /etc/systemd/system/docker.service.d
+pi@raspberrypi3:~ $ sudo vim /etc/systemd/system/docker.service.d/http-proxy.conf
+[Service]
+Environment=&quot;HTTP_PROXY=http://192.168.1.40:10809&quot;
+Environment=&quot;HTTPS_PROXY=http://192.168.1.40:10809&quot;
+Environment=&quot;NO_PROXY=localhost,127.0.0.1,192.168.1.41,192.168.1.42,192.168.1.43,.ayhz.art,.tuna.tsinghua.edu.cn&quot;
+
+pi@raspberrypi3:~ $ sudo systemctl daemon-reload
+pi@raspberrypi3:~ $ sudo systemctl restart docker
+pi@raspberrypi3:~ $ docker pull shellspec/openwrt&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;6.docker安装配置frpc因为更改了树莓派的ip,可能导致之前的镜像有一些问题，打了tag之后还是不行。&lt;/p&gt;
+&lt;p&gt;另外代理也必须开全局才行，而且速度有点慢&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;pi@raspberrypi2:~ $ sudo docker pull 192.168.1.43:5000/snowdreamtech/frpc:0.52.1
+Error response from daemon: manifest for 192.168.1.43:5000/snowdreamtech/frpc:0.52.1 not found: manifest unknown: manifest unknown
+pi@raspberrypi2:~ $ sudo docker pull snowdreamtech/frpc:0.52.1
+Error response from daemon: Get &quot;https://registry-1.docker.io/v2/&quot;: net/http: TLS handshake timeout
+pi@raspberrypi2:~ $ sudo docker pull snowdreamtech/frpc:0.52.1
+0.52.1: Pulling from snowdreamtech/frpc
+579b34f0a95b: Pull complete 
+114d621e9ab5: Pull complete 
+Digest: sha256:7dd470795c91ae3f8ae3a18ea58e40b4ded1b4981b749f29f904a6976bea2960
+Status: Downloaded newer image for snowdreamtech/frpc:0.52.1
+docker.io/snowdreamtech/frpc:0.52.1&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;一通操作之后，发现raspberrypi和raspberrypi1反而无法连接到frps了，不知道什么原因，是因为docker代理吗？&lt;/p&gt;
+&lt;p&gt;7.树莓派之间开启密钥免密登录。&lt;/p&gt;</content:encoded></item><item><title><![CDATA[No title]]></title><description><![CDATA[测试上传文件后是否会自动部署]]></description><link>https://foreverlove.ayhz.art/test/</link><guid isPermaLink="false">https://foreverlove.ayhz.art/test/</guid><content:encoded>&lt;h2&gt;测试上传文件后是否会自动部署&lt;/h2&gt;</content:encoded></item><item><title><![CDATA[No title]]></title><description><![CDATA[👍 这个真的有点意思！ 在echarts中设置保存图片，只需要在第一个大括号后面加上 即可，然后，在将图片拖进编辑器，这样就上传到服务器并且设置了文章的图片，然后我们再将这个图片删掉就可以了。]]></description><link>https://foreverlove.ayhz.art/测试eacharts/</link><guid isPermaLink="false">https://foreverlove.ayhz.art/测试eacharts/</guid><content:encoded>&lt;p&gt;👍 这个真的有点意思！&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;echarts&quot;&gt;&lt;pre class=&quot;language-echarts&quot;&gt;&lt;code class=&quot;language-echarts&quot;&gt;{&amp;quot;toolbox&amp;quot;: {&amp;quot;feature&amp;quot;: {&amp;quot;dataZoom&amp;quot;: { &amp;quot;yAxisIndex&amp;quot;: &amp;quot;none&amp;quot;},&amp;quot;restore&amp;quot;: {},&amp;quot;saveAsImage&amp;quot;: {}}},&amp;quot;backgroundColor&amp;quot;:&amp;quot;#404a59&amp;quot;,&amp;quot;color&amp;quot;:[&amp;quot;#dd4444&amp;quot;,&amp;quot;#fec42c&amp;quot;,&amp;quot;#80F1BE&amp;quot;],&amp;quot;legend&amp;quot;:{&amp;quot;top&amp;quot;:10,&amp;quot;data&amp;quot;:[&amp;quot;北京&amp;quot;,&amp;quot;上海&amp;quot;,&amp;quot;广州&amp;quot;],&amp;quot;textStyle&amp;quot;:{&amp;quot;color&amp;quot;:&amp;quot;#fff&amp;quot;,&amp;quot;fontSize&amp;quot;:16}},&amp;quot;grid&amp;quot;:{&amp;quot;left&amp;quot;:&amp;quot;10%&amp;quot;,&amp;quot;right&amp;quot;:150,&amp;quot;top&amp;quot;:&amp;quot;18%&amp;quot;,&amp;quot;bottom&amp;quot;:&amp;quot;10%&amp;quot;},&amp;quot;tooltip&amp;quot;:{&amp;quot;padding&amp;quot;:10,&amp;quot;backgroundColor&amp;quot;:&amp;quot;#222&amp;quot;,&amp;quot;borderColor&amp;quot;:&amp;quot;#777&amp;quot;,&amp;quot;borderWidth&amp;quot;:1},&amp;quot;xAxis&amp;quot;:{&amp;quot;type&amp;quot;:&amp;quot;value&amp;quot;,&amp;quot;name&amp;quot;:&amp;quot;日期&amp;quot;,&amp;quot;nameGap&amp;quot;:16,&amp;quot;nameTextStyle&amp;quot;:{&amp;quot;color&amp;quot;:&amp;quot;#fff&amp;quot;,&amp;quot;fontSize&amp;quot;:14},&amp;quot;max&amp;quot;:31,&amp;quot;splitLine&amp;quot;:{&amp;quot;show&amp;quot;:false},&amp;quot;axisLine&amp;quot;:{&amp;quot;lineStyle&amp;quot;:{&amp;quot;color&amp;quot;:&amp;quot;#eee&amp;quot;}}},&amp;quot;yAxis&amp;quot;:{&amp;quot;type&amp;quot;:&amp;quot;value&amp;quot;,&amp;quot;name&amp;quot;:&amp;quot;AQI指数&amp;quot;,&amp;quot;nameLocation&amp;quot;:&amp;quot;end&amp;quot;,&amp;quot;nameGap&amp;quot;:20,&amp;quot;nameTextStyle&amp;quot;:{&amp;quot;color&amp;quot;:&amp;quot;#fff&amp;quot;,&amp;quot;fontSize&amp;quot;:16},&amp;quot;axisLine&amp;quot;:{&amp;quot;lineStyle&amp;quot;:{&amp;quot;color&amp;quot;:&amp;quot;#eee&amp;quot;}},&amp;quot;splitLine&amp;quot;:{&amp;quot;show&amp;quot;:false}},&amp;quot;visualMap&amp;quot;:[{&amp;quot;left&amp;quot;:&amp;quot;right&amp;quot;,&amp;quot;top&amp;quot;:&amp;quot;10%&amp;quot;,&amp;quot;dimension&amp;quot;:2,&amp;quot;min&amp;quot;:0,&amp;quot;max&amp;quot;:250,&amp;quot;itemWidth&amp;quot;:30,&amp;quot;itemHeight&amp;quot;:120,&amp;quot;calculable&amp;quot;:true,&amp;quot;precision&amp;quot;:0.1,&amp;quot;text&amp;quot;:[&amp;quot;圆形大小：PM2.5&amp;quot;],&amp;quot;textGap&amp;quot;:30,&amp;quot;textStyle&amp;quot;:{&amp;quot;color&amp;quot;:&amp;quot;#fff&amp;quot;},&amp;quot;inRange&amp;quot;:{&amp;quot;symbolSize&amp;quot;:[10,70]},&amp;quot;outOfRange&amp;quot;:{&amp;quot;symbolSize&amp;quot;:[10,70],&amp;quot;color&amp;quot;:[&amp;quot;rgba(255,255,255,.2)&amp;quot;]},&amp;quot;controller&amp;quot;:{&amp;quot;inRange&amp;quot;:{&amp;quot;color&amp;quot;:[&amp;quot;#c23531&amp;quot;]},&amp;quot;outOfRange&amp;quot;:{&amp;quot;color&amp;quot;:[&amp;quot;#444&amp;quot;]}}},{&amp;quot;left&amp;quot;:&amp;quot;right&amp;quot;,&amp;quot;bottom&amp;quot;:&amp;quot;5%&amp;quot;,&amp;quot;dimension&amp;quot;:6,&amp;quot;min&amp;quot;:0,&amp;quot;max&amp;quot;:50,&amp;quot;itemHeight&amp;quot;:120,&amp;quot;precision&amp;quot;:0.1,&amp;quot;text&amp;quot;:[&amp;quot;明暗：二氧化硫&amp;quot;],&amp;quot;textGap&amp;quot;:30,&amp;quot;textStyle&amp;quot;:{&amp;quot;color&amp;quot;:&amp;quot;#fff&amp;quot;},&amp;quot;inRange&amp;quot;:{&amp;quot;colorLightness&amp;quot;:[1,0.5]},&amp;quot;outOfRange&amp;quot;:{&amp;quot;color&amp;quot;:[&amp;quot;rgba(255,255,255,.2)&amp;quot;]},&amp;quot;controller&amp;quot;:{&amp;quot;inRange&amp;quot;:{&amp;quot;color&amp;quot;:[&amp;quot;#c23531&amp;quot;]},&amp;quot;outOfRange&amp;quot;:{&amp;quot;color&amp;quot;:[&amp;quot;#444&amp;quot;]}}}],&amp;quot;series&amp;quot;:[{&amp;quot;name&amp;quot;:&amp;quot;北京&amp;quot;,&amp;quot;type&amp;quot;:&amp;quot;scatter&amp;quot;,&amp;quot;itemStyle&amp;quot;:{&amp;quot;opacity&amp;quot;:0.8,&amp;quot;shadowBlur&amp;quot;:10,&amp;quot;shadowOffsetX&amp;quot;:0,&amp;quot;shadowOffsetY&amp;quot;:0,&amp;quot;shadowColor&amp;quot;:&amp;quot;rgba(0, 0, 0, 0.5)&amp;quot;},&amp;quot;data&amp;quot;:[[1,55,9,56,0.46,18,6,&amp;quot;良&amp;quot;],[2,25,11,21,0.65,34,9,&amp;quot;优&amp;quot;],[3,56,7,63,0.3,14,5,&amp;quot;良&amp;quot;],[4,33,7,29,0.33,16,6,&amp;quot;优&amp;quot;],[5,42,24,44,0.76,40,16,&amp;quot;优&amp;quot;],[6,82,58,90,1.77,68,33,&amp;quot;良&amp;quot;],[7,74,49,77,1.46,48,27,&amp;quot;良&amp;quot;],[8,78,55,80,1.29,59,29,&amp;quot;良&amp;quot;],[9,267,216,280,4.8,108,64,&amp;quot;重度污染&amp;quot;],[10,185,127,216,2.52,61,27,&amp;quot;中度污染&amp;quot;],[11,39,19,38,0.57,31,15,&amp;quot;优&amp;quot;],[12,41,11,40,0.43,21,7,&amp;quot;优&amp;quot;],[13,64,38,74,1.04,46,22,&amp;quot;良&amp;quot;],[14,108,79,120,1.7,75,41,&amp;quot;轻度污染&amp;quot;],[15,108,63,116,1.48,44,26,&amp;quot;轻度污染&amp;quot;],[16,33,6,29,0.34,13,5,&amp;quot;优&amp;quot;],[17,94,66,110,1.54,62,31,&amp;quot;良&amp;quot;],[18,186,142,192,3.88,93,79,&amp;quot;中度污染&amp;quot;],[19,57,31,54,0.96,32,14,&amp;quot;良&amp;quot;],[20,22,8,17,0.48,23,10,&amp;quot;优&amp;quot;],[21,39,15,36,0.61,29,13,&amp;quot;优&amp;quot;],[22,94,69,114,2.08,73,39,&amp;quot;良&amp;quot;],[23,99,73,110,2.43,76,48,&amp;quot;良&amp;quot;],[24,31,12,30,0.5,32,16,&amp;quot;优&amp;quot;],[25,42,27,43,1,53,22,&amp;quot;优&amp;quot;],[26,154,117,157,3.05,92,58,&amp;quot;中度污染&amp;quot;],[27,234,185,230,4.09,123,69,&amp;quot;重度污染&amp;quot;],[28,160,120,186,2.77,91,50,&amp;quot;中度污染&amp;quot;],[29,134,96,165,2.76,83,41,&amp;quot;轻度污染&amp;quot;],[30,52,24,60,1.03,50,21,&amp;quot;良&amp;quot;],[31,46,5,49,0.28,10,6,&amp;quot;优&amp;quot;]]},{&amp;quot;name&amp;quot;:&amp;quot;上海&amp;quot;,&amp;quot;type&amp;quot;:&amp;quot;scatter&amp;quot;,&amp;quot;itemStyle&amp;quot;:{&amp;quot;opacity&amp;quot;:0.8,&amp;quot;shadowBlur&amp;quot;:10,&amp;quot;shadowOffsetX&amp;quot;:0,&amp;quot;shadowOffsetY&amp;quot;:0,&amp;quot;shadowColor&amp;quot;:&amp;quot;rgba(0, 0, 0, 0.5)&amp;quot;},&amp;quot;data&amp;quot;:[[1,91,45,125,0.82,34,23,&amp;quot;良&amp;quot;],[2,65,27,78,0.86,45,29,&amp;quot;良&amp;quot;],[3,83,60,84,1.09,73,27,&amp;quot;良&amp;quot;],[4,109,81,121,1.28,68,51,&amp;quot;轻度污染&amp;quot;],[5,106,77,114,1.07,55,51,&amp;quot;轻度污染&amp;quot;],[6,109,81,121,1.28,68,51,&amp;quot;轻度污染&amp;quot;],[7,106,77,114,1.07,55,51,&amp;quot;轻度污染&amp;quot;],[8,89,65,78,0.86,51,26,&amp;quot;良&amp;quot;],[9,53,33,47,0.64,50,17,&amp;quot;良&amp;quot;],[10,80,55,80,1.01,75,24,&amp;quot;良&amp;quot;],[11,117,81,124,1.03,45,24,&amp;quot;轻度污染&amp;quot;],[12,99,71,142,1.1,62,42,&amp;quot;良&amp;quot;],[13,95,69,130,1.28,74,50,&amp;quot;良&amp;quot;],[14,116,87,131,1.47,84,40,&amp;quot;轻度污染&amp;quot;],[15,108,80,121,1.3,85,37,&amp;quot;轻度污染&amp;quot;],[16,134,83,167,1.16,57,43,&amp;quot;轻度污染&amp;quot;],[17,79,43,107,1.05,59,37,&amp;quot;良&amp;quot;],[18,71,46,89,0.86,64,25,&amp;quot;良&amp;quot;],[19,97,71,113,1.17,88,31,&amp;quot;良&amp;quot;],[20,84,57,91,0.85,55,31,&amp;quot;良&amp;quot;],[21,87,63,101,0.9,56,41,&amp;quot;良&amp;quot;],[22,104,77,119,1.09,73,48,&amp;quot;轻度污染&amp;quot;],[23,87,62,100,1,72,28,&amp;quot;良&amp;quot;],[24,168,128,172,1.49,97,56,&amp;quot;中度污染&amp;quot;],[25,65,45,51,0.74,39,17,&amp;quot;良&amp;quot;],[26,39,24,38,0.61,47,17,&amp;quot;优&amp;quot;],[27,39,24,39,0.59,50,19,&amp;quot;优&amp;quot;],[28,93,68,96,1.05,79,29,&amp;quot;良&amp;quot;],[29,188,143,197,1.66,99,51,&amp;quot;中度污染&amp;quot;],[30,174,131,174,1.55,108,50,&amp;quot;中度污染&amp;quot;],[31,187,143,201,1.39,89,53,&amp;quot;中度污染&amp;quot;]]},{&amp;quot;name&amp;quot;:&amp;quot;广州&amp;quot;,&amp;quot;type&amp;quot;:&amp;quot;scatter&amp;quot;,&amp;quot;itemStyle&amp;quot;:{&amp;quot;opacity&amp;quot;:0.8,&amp;quot;shadowBlur&amp;quot;:10,&amp;quot;shadowOffsetX&amp;quot;:0,&amp;quot;shadowOffsetY&amp;quot;:0,&amp;quot;shadowColor&amp;quot;:&amp;quot;rgba(0, 0, 0, 0.5)&amp;quot;},&amp;quot;data&amp;quot;:[[1,26,37,27,1.163,27,13,&amp;quot;优&amp;quot;],[2,85,62,71,1.195,60,8,&amp;quot;良&amp;quot;],[3,78,38,74,1.363,37,7,&amp;quot;良&amp;quot;],[4,21,21,36,0.634,40,9,&amp;quot;优&amp;quot;],[5,41,42,46,0.915,81,13,&amp;quot;优&amp;quot;],[6,56,52,69,1.067,92,16,&amp;quot;良&amp;quot;],[7,64,30,28,0.924,51,2,&amp;quot;良&amp;quot;],[8,55,48,74,1.236,75,26,&amp;quot;良&amp;quot;],[9,76,85,113,1.237,114,27,&amp;quot;良&amp;quot;],[10,91,81,104,1.041,56,40,&amp;quot;良&amp;quot;],[11,84,39,60,0.964,25,11,&amp;quot;良&amp;quot;],[12,64,51,101,0.862,58,23,&amp;quot;良&amp;quot;],[13,70,69,120,1.198,65,36,&amp;quot;良&amp;quot;],[14,77,105,178,2.549,64,16,&amp;quot;良&amp;quot;],[15,109,68,87,0.996,74,29,&amp;quot;轻度污染&amp;quot;],[16,73,68,97,0.905,51,34,&amp;quot;良&amp;quot;],[17,54,27,47,0.592,53,12,&amp;quot;良&amp;quot;],[18,51,61,97,0.811,65,19,&amp;quot;良&amp;quot;],[19,91,71,121,1.374,43,18,&amp;quot;良&amp;quot;],[20,73,102,182,2.787,44,19,&amp;quot;良&amp;quot;],[21,73,50,76,0.717,31,20,&amp;quot;良&amp;quot;],[22,84,94,140,2.238,68,18,&amp;quot;良&amp;quot;],[23,93,77,104,1.165,53,7,&amp;quot;良&amp;quot;],[24,99,130,227,3.97,55,15,&amp;quot;良&amp;quot;],[25,146,84,139,1.094,40,17,&amp;quot;轻度污染&amp;quot;],[26,113,108,137,1.481,48,15,&amp;quot;轻度污染&amp;quot;],[27,81,48,62,1.619,26,3,&amp;quot;良&amp;quot;],[28,56,48,68,1.336,37,9,&amp;quot;良&amp;quot;],[29,82,92,174,3.29,0,13,&amp;quot;良&amp;quot;],[30,106,116,188,3.628,101,16,&amp;quot;轻度污染&amp;quot;],[31,118,50,0,1.383,76,11,&amp;quot;轻度污染&amp;quot;]]}]}&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;在echarts中设置保存图片，只需要在第一个大括号后面加上&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;javascript&quot;&gt;&lt;pre class=&quot;language-javascript&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;&lt;span class=&quot;token string-property property&quot;&gt;&quot;toolbox&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token string-property property&quot;&gt;&quot;feature&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token string-property property&quot;&gt;&quot;dataZoom&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;token string-property property&quot;&gt;&quot;yAxisIndex&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;none&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;token string-property property&quot;&gt;&quot;restore&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;token string-property property&quot;&gt;&quot;saveAsImage&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;即可，然后，在将图片拖进编辑器，这样就上传到服务器并且设置了文章的图片，然后我们再将这个图片删掉就可以了。&lt;/p&gt;</content:encoded></item><item><title><![CDATA[关于goolang协程的理解]]></title><description><![CDATA[关于goolang协程的理解 参考: go channel 万字详解 手动写一下执行代码看看，加深理解。]]></description><link>https://foreverlove.ayhz.art/关于golang协程的理解/</link><guid isPermaLink="false">https://foreverlove.ayhz.art/关于golang协程的理解/</guid><pubDate>Thu, 25 Jul 2024 18:00:32 GMT</pubDate><content:encoded>&lt;h2&gt;关于goolang协程的理解&lt;/h2&gt;
+&lt;p&gt;参考: &lt;a href=&quot;https://zhuanlan.zhihu.com/p/643013131&quot;&gt;go channel 万字详解&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;手动写一下执行代码看看，加深理解。&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;func TestSingleDeirection(t *testing.T) {
+	in := make(chan int, 10)
+	doneR := make(chan bool)
+	go func() {
+		for e := range in {
+			fmt.Println(e)
+		}
+		doneR &amp;lt;- true
+	}()
+
+	go func() {
+		for i := 0; i &amp;lt; 10; i++ {
+			in &amp;lt;- (i * i)
+		}
+		close(in)
+	}()
+	&amp;lt;-doneR
+	fmt.Print(&quot;执行完毕&quot;)
+}&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;func TestStopRead(t *testing.T) {
+	ch := make(chan int, 10)
+	go func() {
+		for i := 0; i &amp;lt; 10; i++ {
+			ch &amp;lt;- i
+		}
+		close(ch)
+	}()
+	for {
+                //关闭通道作为信号，ok=false
+		v, ok := &amp;lt;-ch
+		if !ok {
+			break
+		}
+		fmt.Println(v)
+	}
+	fmt.Println(&quot;结束&quot;)
+}&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content:encoded></item><item><title><![CDATA[New Beginnings]]></title><description><![CDATA[Far far away, behind the word mountains, far from the countries Vokalia and
+Consonantia, there live the blind texts. Separated they live in…]]></description><link>https://foreverlove.ayhz.art/new-beginnings/</link><guid isPermaLink="false">https://foreverlove.ayhz.art/new-beginnings/</guid><pubDate>Thu, 28 May 2015 22:40:32 GMT</pubDate><content:encoded>&lt;p&gt;Far far away, behind the word mountains, far from the countries Vokalia and
+Consonantia, there live the blind texts. Separated they live in Bookmarksgrove
+right at the coast of the Semantics, a large language ocean. A small river named
+Duden flows by their place and supplies it with the necessary regelialia.&lt;/p&gt;
+&lt;h2&gt;On deer horse aboard tritely yikes and much&lt;/h2&gt;
+&lt;p&gt;The Big Oxmox advised her not to do so, because there were thousands of bad
+Commas, wild Question Marks and devious Semikoli, but the Little Blind Text
+didn’t listen. She packed her seven versalia, put her initial into the belt and
+made herself on the way.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;This however showed weasel&lt;/li&gt;
+&lt;li&gt;Well uncritical so misled
+&lt;ul&gt;
+&lt;li&gt;this is very interesting&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Goodness much until that fluid owl&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;When she reached the first hills of the &lt;strong&gt;Italic Mountains&lt;/strong&gt;, she had a last
+view back on the skyline of her hometown &lt;em&gt;Bookmarksgrove&lt;/em&gt;, the headline of
+&lt;a href=&quot;http://google.com&quot;&gt;Alphabet Village&lt;/a&gt; and the subline of her own road, the Line
+Lane. Pityful a rhetoric question ran over her cheek, then she continued her
+way. On her way she met a copy.&lt;/p&gt;
+&lt;h3&gt;Overlaid the jeepers uselessly much excluding&lt;/h3&gt;
+&lt;p&gt;But nothing the copy said could convince her and so it didn’t take long until a
+few insidious Copy Writers ambushed her, made her drunk with
+&lt;a href=&quot;http://google.com&quot;&gt;Longe and Parole&lt;/a&gt; and dragged her into their agency, where
+they abused her for their projects again and again. And if she hasn’t been
+rewritten, then they are still using her.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Far far away, behind the word mountains, far from the countries Vokalia and
+Consonantia, there live the blind texts. Separated they live in Bookmarksgrove
+right at the coast of the Semantics, a large language ocean.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;It is a paradisematic country, in which roasted parts of sentences fly into your
+mouth. Even the all-powerful Pointing has no control about the blind texts it is
+an almost unorthographic life One day however a small line of blind text by the
+name of Lorem Ipsum decided to leave for the far World of Grammar.&lt;/p&gt;
+&lt;h3&gt;According a funnily until pre-set or arrogant well cheerful&lt;/h3&gt;
+&lt;p&gt;The Big Oxmox advised her not to do so, because there were thousands of bad
+Commas, wild Question Marks and devious Semikoli, but the Little Blind Text
+didn’t listen. She packed her seven versalia, put her initial into the belt and
+made herself on the way.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;So baboon this&lt;/li&gt;
+&lt;li&gt;Mounted militant weasel gregariously admonishingly straightly hey&lt;/li&gt;
+&lt;li&gt;Dear foresaw hungry and much some overhung&lt;/li&gt;
+&lt;li&gt;Rash opossum less because less some amid besides yikes jeepers frenetic
+impassive fruitlessly shut&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;When she reached the first hills of the Italic Mountains, she had a last view
+back on the skyline of her hometown Bookmarksgrove, the headline of Alphabet
+Village and the subline of her own road, the Line Lane. Pityful a rhetoric
+question ran over her cheek, then she continued her way. On her way she met a
+copy.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;The copy warned the Little Blind Text, that where it came from it would have
+been rewritten a thousand times and everything that was left from its origin
+would be the word &quot;and&quot; and the Little Blind Text should turn around and
+return to its own, safe country.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;But nothing the copy said could convince her and so it didn’t take long until a
+few insidious Copy Writers ambushed her, made her drunk with Longe and Parole
+and dragged her into their agency, where they abused her for their projects
+again and again. And if she hasn’t been rewritten, then they are still using
+her. Far far away, behind the word mountains, far from the countries Vokalia and
+Consonantia, there live the blind texts.&lt;/p&gt;
+&lt;h4&gt;Silent delightfully including because before one up barring chameleon&lt;/h4&gt;
+&lt;p&gt;Separated they live in Bookmarksgrove right at the coast of the Semantics, a
+large language ocean. A small river named Duden flows by their place and
+supplies it with the necessary regelialia. It is a paradisematic country, in
+which roasted parts of sentences fly into your mouth.&lt;/p&gt;
+&lt;p&gt;Even the all-powerful Pointing has no control about the blind texts it is an
+almost unorthographic life One day however a small line of blind text by the
+name of Lorem Ipsum decided to leave for the far World of Grammar. The Big Oxmox
+advised her not to do so, because there were thousands of bad Commas, wild
+Question Marks and devious Semikoli, but the Little Blind Text didn’t listen.&lt;/p&gt;
+&lt;h5&gt;Wherever far wow thus a squirrel raccoon jeez jaguar this from along&lt;/h5&gt;
+&lt;p&gt;She packed her seven versalia, put her initial into the belt and made herself on
+the way. When she reached the first hills of the Italic Mountains, she had a
+last view back on the skyline of her hometown Bookmarksgrove, the headline of
+Alphabet Village and the subline of her own road, the Line Lane. Pityful a
+rhetoric question ran over her cheek, then she continued her way. On her way she
+met a copy.&lt;/p&gt;
+&lt;h6&gt;Slapped cozy a that lightheartedly and far&lt;/h6&gt;
+&lt;p&gt;The copy warned the Little Blind Text, that where it came from it would have
+been rewritten a thousand times and everything that was left from its origin
+would be the word &quot;and&quot; and the Little Blind Text should turn around and return
+to its own, safe country. But nothing the copy said could convince her and so it
+didn’t take long until a few insidious Copy Writers ambushed her, made her drunk
+with Longe and Parole and dragged her into their agency, where they abused her
+for their projects again and again.&lt;/p&gt;</content:encoded></item><item><title><![CDATA[My Second Post!]]></title><description><![CDATA[Wow! I love blogging so much already. Did you know that "despite its name, salted duck eggs can also be made from
+chicken eggs, though the…]]></description><link>https://foreverlove.ayhz.art/my-second-post/</link><guid isPermaLink="false">https://foreverlove.ayhz.art/my-second-post/</guid><pubDate>Wed, 06 May 2015 23:46:37 GMT</pubDate><content:encoded>&lt;p&gt;Wow! I love blogging so much already.&lt;/p&gt;
+&lt;p&gt;Did you know that &quot;despite its name, salted duck eggs can also be made from
+chicken eggs, though the taste and texture will be somewhat different, and the
+egg yolk will be less rich.&quot;?
+(&lt;a href=&quot;https://en.wikipedia.org/wiki/Salted_duck_egg&quot;&gt;Wikipedia Link&lt;/a&gt;)&lt;/p&gt;
+&lt;p&gt;Yeah, I didn&apos;t either.&lt;/p&gt;</content:encoded></item><item><title><![CDATA[Hello World]]></title><description><![CDATA[This is my first post on my new fake blog! How exciting! I'm sure I'll write a lot more interesting things in the future. Oh, and here's a…]]></description><link>https://foreverlove.ayhz.art/hello-world/</link><guid isPermaLink="false">https://foreverlove.ayhz.art/hello-world/</guid><pubDate>Fri, 01 May 2015 22:12:03 GMT</pubDate><content:encoded>&lt;p&gt;This is my first post on my new fake blog! How exciting!&lt;/p&gt;
+&lt;p&gt;I&apos;m sure I&apos;ll write a lot more interesting things in the future.&lt;/p&gt;
+&lt;p&gt;Oh, and here&apos;s a great quote from this Wikipedia on
+&lt;a href=&quot;https://en.wikipedia.org/wiki/Salted_duck_egg&quot;&gt;salted duck eggs&lt;/a&gt;.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;A salted duck egg is a Chinese preserved food product made by soaking duck
+eggs in brine, or packing each egg in damp, salted charcoal. In Asian
+supermarkets, these eggs are sometimes sold covered in a thick layer of salted
+charcoal paste. The eggs may also be sold with the salted paste removed,
+wrapped in plastic, and vacuum packed. From the salt curing process, the
+salted duck eggs have a briny aroma, a gelatin-like egg white and a
+firm-textured, round yolk that is bright orange-red in color.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/8058f3f26913fea3b6a89a73344fe94a/e1596/salty_egg.jpg&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 75.31645569620254%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAPABQDASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAAAAMB/8QAFwEAAwEAAAAAAAAAAAAAAAAAAAEEBf/aAAwDAQACEAMQAAABgik0dXC//8QAGRABAAMBAQAAAAAAAAAAAAAAAQACERIy/9oACAEBAAEFAkqW7B5Zox9t8n//xAAXEQEAAwAAAAAAAAAAAAAAAAAAERJB/9oACAEDAQE/AdVl/8QAFhEBAQEAAAAAAAAAAAAAAAAAABEC/9oACAECAQE/AYun/8QAGxAAAQQDAAAAAAAAAAAAAAAAAAECESEiMTL/2gAIAQEABj8CvRjaHMkvIQo//8QAGxAAAwEBAAMAAAAAAAAAAAAAAREhAEGBobH/2gAIAQEAAT8hsTTH203YINmYDPHckkPzQiAnv//aAAwDAQACAAMAAAAQyC//xAAXEQEBAQEAAAAAAAAAAAAAAAABABEh/9oACAEDAQE/EBHDK6y//8QAGBEAAgMAAAAAAAAAAAAAAAAAAAERIVH/2gAIAQIBAT8QWiS0j//EABwQAQEAAgMBAQAAAAAAAAAAAAERADEhYYFB4f/aAAgBAQABPxBOzi0NHmChLtHkL9EcWZeCVJ1kcRoVp3lEYcnjEk0ES7/Jn//Z&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Chinese Salty Egg&quot;
+        title=&quot;&quot;
+        src=&quot;/static/8058f3f26913fea3b6a89a73344fe94a/828fb/salty_egg.jpg&quot;
+        srcset=&quot;/static/8058f3f26913fea3b6a89a73344fe94a/ff44c/salty_egg.jpg 158w,
+/static/8058f3f26913fea3b6a89a73344fe94a/a6688/salty_egg.jpg 315w,
+/static/8058f3f26913fea3b6a89a73344fe94a/828fb/salty_egg.jpg 630w,
+/static/8058f3f26913fea3b6a89a73344fe94a/0ede0/salty_egg.jpg 945w,
+/static/8058f3f26913fea3b6a89a73344fe94a/3ac88/salty_egg.jpg 1260w,
+/static/8058f3f26913fea3b6a89a73344fe94a/e1596/salty_egg.jpg 2048w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;You can also write code blocks here!&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;js&quot;&gt;&lt;pre class=&quot;language-js&quot;&gt;&lt;code class=&quot;language-js&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; saltyDuckEgg &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;chinese preserved food product&quot;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th align=&quot;left&quot;&gt;Number&lt;/th&gt;
+&lt;th align=&quot;left&quot;&gt;Title&lt;/th&gt;
+&lt;th align=&quot;right&quot;&gt;Year&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td align=&quot;left&quot;&gt;1&lt;/td&gt;
+&lt;td align=&quot;left&quot;&gt;Harry Potter and the Philosopher’s Stone&lt;/td&gt;
+&lt;td align=&quot;right&quot;&gt;2001&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&quot;left&quot;&gt;2&lt;/td&gt;
+&lt;td align=&quot;left&quot;&gt;Harry Potter and the Chamber of Secrets&lt;/td&gt;
+&lt;td align=&quot;right&quot;&gt;2002&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&quot;left&quot;&gt;3&lt;/td&gt;
+&lt;td align=&quot;left&quot;&gt;Harry Potter and the Prisoner of Azkaban&lt;/td&gt;
+&lt;td align=&quot;right&quot;&gt;2004&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;a href=&quot;https://raw.github.com/adamschwartz/github-markdown-kitchen-sink/master/README.md&quot;&gt;View raw (TEST.md)&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;This is a paragraph.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;This is a paragraph.&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h1&gt;Header 1&lt;/h1&gt;
+&lt;h2&gt;Header 2&lt;/h2&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;Header 1
+========
+
+Header 2
+--------&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h1&gt;Header 1&lt;/h1&gt;
+&lt;h2&gt;Header 2&lt;/h2&gt;
+&lt;h3&gt;Header 3&lt;/h3&gt;
+&lt;h4&gt;Header 4&lt;/h4&gt;
+&lt;h5&gt;Header 5&lt;/h5&gt;
+&lt;h6&gt;Header 6&lt;/h6&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;# Header 1
+## Header 2
+### Header 3
+#### Header 4
+##### Header 5
+###### Header 6&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h1&gt;Header 1&lt;/h1&gt;
+&lt;h2&gt;Header 2&lt;/h2&gt;
+&lt;h3&gt;Header 3&lt;/h3&gt;
+&lt;h4&gt;Header 4&lt;/h4&gt;
+&lt;h5&gt;Header 5&lt;/h5&gt;
+&lt;h6&gt;Header 6&lt;/h6&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;# Header 1 #
+## Header 2 ##
+### Header 3 ###
+#### Header 4 ####
+##### Header 5 #####
+###### Header 6 ######&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus. Vestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;&gt; Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus. Vestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus.&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;blockquote&gt;
+&lt;h2&gt;This is a header.&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;This is the first list item.&lt;/li&gt;
+&lt;li&gt;This is the second list item.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Here&apos;s some example code:&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;Markdown.generate();&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/blockquote&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;&gt; ## This is a header.
+&gt; 1. This is the first list item.
+&gt; 2. This is the second list item.
+&gt;
+&gt; Here&apos;s some example code:
+&gt;
+&gt;     Markdown.generate();&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;Red&lt;/li&gt;
+&lt;li&gt;Green&lt;/li&gt;
+&lt;li&gt;Blue&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ul&gt;
+&lt;li&gt;Red&lt;/li&gt;
+&lt;li&gt;Green&lt;/li&gt;
+&lt;li&gt;Blue&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ul&gt;
+&lt;li&gt;Red&lt;/li&gt;
+&lt;li&gt;Green&lt;/li&gt;
+&lt;li&gt;Blue&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;markdown&quot;&gt;&lt;pre class=&quot;language-markdown&quot;&gt;&lt;code class=&quot;language-markdown&quot;&gt;&lt;span class=&quot;token list punctuation&quot;&gt;-&lt;/span&gt; Red
+&lt;span class=&quot;token list punctuation&quot;&gt;-&lt;/span&gt; Green
+&lt;span class=&quot;token list punctuation&quot;&gt;-&lt;/span&gt; Blue
+
+&lt;span class=&quot;token list punctuation&quot;&gt;*&lt;/span&gt; Red
+&lt;span class=&quot;token list punctuation&quot;&gt;*&lt;/span&gt; Green
+&lt;span class=&quot;token list punctuation&quot;&gt;*&lt;/span&gt; Blue
+
+&lt;span class=&quot;token list punctuation&quot;&gt;-&lt;/span&gt; Red
+&lt;span class=&quot;token list punctuation&quot;&gt;-&lt;/span&gt; Green
+&lt;span class=&quot;token list punctuation&quot;&gt;-&lt;/span&gt; Blue&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;code goes&lt;/code&gt; here in this line&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;bold&lt;/strong&gt; goes here&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;markdown&quot;&gt;&lt;pre class=&quot;language-markdown&quot;&gt;&lt;code class=&quot;language-markdown&quot;&gt;&lt;span class=&quot;token list punctuation&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token code-snippet code keyword&quot;&gt;`code goes`&lt;/span&gt; here in this line
+&lt;span class=&quot;token list punctuation&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token bold&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;**&lt;/span&gt;&lt;span class=&quot;token content&quot;&gt;bold&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;**&lt;/span&gt;&lt;/span&gt; goes here&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;ol&gt;
+&lt;li&gt;Buy flour and salt&lt;/li&gt;
+&lt;li&gt;Mix together with water&lt;/li&gt;
+&lt;li&gt;Bake&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;markdown&quot;&gt;&lt;pre class=&quot;language-markdown&quot;&gt;&lt;code class=&quot;language-markdown&quot;&gt;&lt;span class=&quot;token list punctuation&quot;&gt;1.&lt;/span&gt; Buy flour and salt
+&lt;span class=&quot;token list punctuation&quot;&gt;1.&lt;/span&gt; Mix together with water
+&lt;span class=&quot;token list punctuation&quot;&gt;1.&lt;/span&gt; Bake&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;code goes&lt;/code&gt; here in this line&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;bold&lt;/strong&gt; goes here&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;markdown&quot;&gt;&lt;pre class=&quot;language-markdown&quot;&gt;&lt;code class=&quot;language-markdown&quot;&gt;&lt;span class=&quot;token list punctuation&quot;&gt;1.&lt;/span&gt; &lt;span class=&quot;token code-snippet code keyword&quot;&gt;`code goes`&lt;/span&gt; here in this line
+&lt;span class=&quot;token list punctuation&quot;&gt;1.&lt;/span&gt; &lt;span class=&quot;token bold&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;**&lt;/span&gt;&lt;span class=&quot;token content&quot;&gt;bold&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;**&lt;/span&gt;&lt;/span&gt; goes here&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Paragraph:&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;Code&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;!-- --&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;Paragraph:
+
+    Code&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;hr&gt;
+&lt;hr&gt;
+&lt;hr&gt;
+&lt;hr&gt;
+&lt;hr&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;* * *
+
+***
+
+*****
+
+- - -
+
+---------------------------------------&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;This is &lt;a href=&quot;http://example.com&quot; title=&quot;Example&quot;&gt;an example&lt;/a&gt; link.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;http://example.com&quot;&gt;This link&lt;/a&gt; has no title attr.&lt;/p&gt;
+&lt;p&gt;This is &lt;a href=&quot;http://example.com&quot; title=&quot;Optional Title&quot;&gt;an example&lt;/a&gt; reference-style link.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;This is [an example](http://example.com &quot;Example&quot;) link.
+
+[This link](http://example.com) has no title attr.
+
+This is [an example] [id] reference-style link.
+
+[id]: http://example.com &quot;Optional Title&quot;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;em&gt;single asterisks&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;single underscores&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;double asterisks&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;double underscores&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;*single asterisks*
+
+_single underscores_
+
+**double asterisks**
+
+__double underscores__&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;This paragraph has some &lt;code class=&quot;language-text&quot;&gt;code&lt;/code&gt; in it.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;This paragraph has some `code` in it.&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;img src=&quot;https://via.placeholder.com/200x50&quot; alt=&quot;Alt Text&quot; title=&quot;Image Title&quot;&gt;&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;![Alt Text](https://via.placeholder.com/200x50 &quot;Image Title&quot;)&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content:encoded></item></channel></rss>
